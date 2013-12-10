@@ -1,4 +1,4 @@
-import os, urllib, jinja2, webapp2, re
+import os, urllib, jinja2, webapp2
 from google.appengine.ext import ndb
 
 
@@ -16,7 +16,7 @@ class Author(ndb.Model):
 
 
 class Note(ndb.Model):
-	"""Models a single note that can be added to Parrot Notes"""
+	"""Models a single note that can be added to Noat"""
 	note_title = ndb.StringProperty(indexed=False)
 	note_content = ndb.TextProperty()
 	note_type = ndb.StringProperty()
@@ -30,11 +30,6 @@ def get_author_info(request):
 	if author_name != DEFAULT_AUTHOR_NAME and author_pass != DEFAULT_AUTHOR_PASS:
 		author = Author.query().filter(Author.author_name == author_name).filter(Author.author_pass == author_pass).get()
 	return author, author_name, author_pass
-
-def nl2br(value):
-	return value.replace('\n', '<br>\n')
-
-JINJA_ENVIRONMENT.filters['nl2br'] = nl2br
 
 
 class MainPage(webapp2.RequestHandler):

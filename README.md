@@ -1,5 +1,6 @@
-Noat
-====
+![Noat](https://raw.github.com/willyg302/Noat/master/noat-logo-922.png "Wally Says Hi!")
+
+---
 
 A dead-simple app for CRUD-ing tiny bits of information. Some features:
 
