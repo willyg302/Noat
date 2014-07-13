@@ -1,4 +1,4 @@
-![Noat](https://raw.github.com/willyg302/Noat/master/noat-logo-922.png "Wally Says Hi!")
+![Noat](https://raw.github.com/willyg302/Noat/master/media/noat-logo-922.png "Wally Says Hi!")
 
 ---
 
@@ -9,8 +9,7 @@ A dead-simple app for CRUD-ing tiny bits of information. Some features:
 * Very simple interface (add a note, edit it, or delete it...that's it!)
 * Mobile-friendly
 
-Setup
------
+## Setup
 
 Open up **app.yaml** and change `[YOUR APPLICATION HERE]` to the name of your own App Engine application.
 
@@ -34,8 +33,7 @@ print hashlib.sha256([AUTHOR PASS HERE] + [SECRET SALT]).hexdigest()
 
 You can then use the output of the above code for the value of `[HASHED PASS HERE]`.
 
-Using Noat
-----------
+## Using Noat
 
 Visit yourapp.appspot.com/rnote?p=[HASHED PASS HERE]&n=[AUTHOR NAME HERE].
 
@@ -43,8 +41,7 @@ There is no login form; Noat just uses the username and password provided via th
 
 That being said, this makes Noat very easy to use. Just bookmark the above URL in all your browsers and you've got all your notes synced everywhere. Noat also includes Apple icon support, so you can create an application icon on iOS devices for one-tap access.
 
-Why Noat?
----------
+## Why Noat?
 
 I needed a way of having small bits of information available to me at all times, from any device I owned, without all the fuss of a big desktop application, login forms, and the like. I needed something in between Pastebin (with a bit more security and better markup features) and Wunderlist (without all the complexity).
 
@@ -52,7 +49,6 @@ Before making Noat, I used to rely on email to fill the void. Sometimes I would 
 
 Now, I just click on my Noat bookmark, add a new note, paste the link, and save. Even easier!
 
-Why "Noat"?
------------
+## Why "Noat"?
 
 There seems to be a recent software development trend of abusing the English language in every way possible when coming up with app names. Noat continues this tradition in style. Plus note rhymes with goat. I mean, isn't that kind of obvious?

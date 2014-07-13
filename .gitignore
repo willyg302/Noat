@@ -1,1 +1,6 @@
 *.py[cod]
+node_modules
+main/bower_components
+dist
+!dist/index.yaml
+.tmp

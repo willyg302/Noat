@@ -1,0 +1,11 @@
+{
+  "name": "Noat",
+  "version": "0.1.0",
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "bootstrap": "~3.2.0",
+    "underscore": "~1.6.0",
+    "backbone": "~1.1.2"
+  },
+  "devDependencies": {}
+}

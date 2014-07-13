@@ -4,43 +4,20 @@
 <head>
 	<title>Noat</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/summernote.css">
-	<link rel="stylesheet" type="text/css" href="css/summernote-bs3.css">
-	<link rel="stylesheet" type="text/css" href="css/app.css">
 
-	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/summernote.min.js"></script>
-	<script>
-		capitalize = function(s) {
-			return s[0].toUpperCase() + s.slice(1);
-		};
-		setEditModal = function(title, content, type, id) {
-			$("#noteTitle").val(title);
-			$("#summernote").code(content);
-			$("#noteType").val(capitalize(type));
-			$("#noteID").val(id);
-			$('#editNote').modal('show');
-		};
-		addNote = function() {
-			setEditModal("", "", "default", "");
-		};
-		updateNote = function(id) {
-			note = $("#" + id);
-			setEditModal(note.find(".note-title").html(), note.find(".panel-body").html(), note.find(".note-type").html(), id);
-		};
-		deleteNote = function(id) {
-			$.post("/dnote", {
-				k: id,
-				n: "{{ author_name }}",
-				p: "{{ author_pass }}"
-			}, function(data) {
-				//
-			});
-		};
-	</script>
+	<!-- build:css css/main.css -->
+	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+	<!-- endbuild -->
+
+	<!-- build:js js/main.js -->
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/underscore/underscore.js"></script>
+	<script src="bower_components/backbone/backbone.js"></script>
+	<script src="js/app.js"></script>
+	<!-- endbuild -->
+
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 </head>
 <body>
