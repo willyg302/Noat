@@ -12,20 +12,29 @@ module.exports = function(grunt) {
 			dist: {
 				files: [
 					{
-						src: 'main/index.html',
-						dest: 'dist/index.html'
-					},
-					{
 						expand: true,
 						cwd: 'main/',
-						src: 'img/*',
+						src: [
+							'index.html',
+							'noat.py',
+							'app.yaml',
+							'img/*'
+						],
 						dest: 'dist/'
-					},
-					{
-						src: 'main/noat.py',
-						dest: 'dist/noat.py'
 					}
 				]
+			}
+		},
+
+		less: {
+			compile: {
+				files : {
+					'main/css/main.css': 'main/css/main.less'
+				},
+				options: {
+					compress: false,
+					dumpLineNumbers: 'comments'
+				}
 			}
 		},
 
@@ -42,6 +51,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [
 		'clean:dist',
+		'less',
 		'useminPrepare', 'copy', 'concat', 'cssmin', 'uglify', 'usemin'
 	]);
 };
