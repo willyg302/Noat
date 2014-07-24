@@ -2,10 +2,16 @@
   "name": "Noat",
   "version": "0.1.0",
   "dependencies": {
+    "requirejs": "~2.1.14",
+    "requirejs-text": "~2.0.12",
+    
+    "modernizr": "~2.8.3",
     "jquery": "~1.11.1",
     "bootstrap": "~3.2.0",
     "underscore": "~1.6.0",
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+
+    "i18next": "~1.7.3"
   },
   "devDependencies": {}
 }

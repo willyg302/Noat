@@ -1,108 +1,64 @@
 <!DOCTYPE html>
-{% autoescape true %}
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 	<title>Noat</title>
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="William Gaul">
 
 	<!-- build:css css/main.css -->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<!-- endbuild -->
-
-	<!-- build:js js/main.js -->
-	<script src="bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="bower_components/underscore/underscore.js"></script>
-	<script src="bower_components/backbone/backbone.js"></script>
-	<script src="js/app.js"></script>
+	<!-- build:js js/vendor/modernizr.js -->
+	<script src="bower_components/modernizr/modernizr.js"></script>
 	<!-- endbuild -->
 
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 </head>
 <body>
-	<div id="wrap">
-		<div class="container">
-			<!-- NAVBAR -->
-			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-				<div class="navbar-header pull-left">
-					<a class="navbar-brand" href="#"><img height="50px" style="margin:-15px 15px -15px -15px;" src="img/noat-logo.svg" /></a>
-				</div>
-				<div class="navbar-header pull-right">
-					<button class="btn btn-primary navbar-btn" style="margin-right:10px;" onclick="addNote();">Add Note</button>
+	<ul id="menu" class="menu-main">
+		<li class="sidenav-wrapper">
+			<a class="trigger icon-menu"><span>Menu</span></a>
+			<nav class="sidenav">
+				<div class="scroller">
+					<ul class="menu">
+						<li class="search-item">
+							<a class="icon-search no-select"><span>Search</span></a>
+							<input placeholder="Search" type="search" class="search">
+						</li>
+						<li>
+							<a class="icon-home no-select">All Notes</a>
+							<ul class="submenu">
+								<li><a class="sidenav-note icon-star">Some note</a></li>
+								<li><a class="sidenav-note icon-star-empty selected">Hello world! This is a long title so I can see what happens.</a></li>
+								<li><a class="sidenav-note icon-star-empty">Third note</a></li>
+							</ul>
+						</li>
+						<!--
+						<li><a class="icon-star">Favorites</a></li>
+						<li><a class="icon-trash">Trash</a></li>
+						-->
+					</ul>
 				</div>
 			</nav>
-			<!-- ADD NOTE MODAL -->
-			<div class="modal" id="editNote" tabindex="-1" role="dialog">
-				<div class="modal-dialog modal-wide">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Add Note</h4>
-						</div>
-						<div class="modal-body">
-							<form role="form" id="add-note-form" action="/enote" method="post">
-								<input type="hidden" name="n" value="{{ author_name }}">
-								<input type="hidden" name="p" value="{{ author_pass }}">
-								<input type="hidden" name="k" value="" id="noteID">
-								<input type="hidden" name="content" value="" id="noteContent">
-								<div class="form-group">
-									<label for="noteTitle">Title</label>
-									<input type="text" class="form-control input-lg" id="noteTitle" name="title">
-								</div>
-								<div class="form-group">
-									<div id="summernote">Hello Summernote</div>
-								</div>
-								<div class="form-group">
-									<label for="noteType">Type</label>
-									<select class="form-control" id="noteType" name="type">
-										<option>Default</option>
-										<option>Info</option>
-										<option>Success</option>
-										<option>Warning</option>
-										<option>Danger</option>
-									</select>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-							<button type="button" class="btn btn-primary" id="add-note-submit">Save Note</button>
-						</div>
-						<script>
-							$('#add-note-submit').click(function() {
-								$('#noteContent').val($('#summernote').code());
-								$('#add-note-form').submit();
-							});
-						</script>
-					</div>
-				</div>
-			</div>
-			<!-- NOTES AREA -->
-
-			{% for note in notes %}
-			<div class="panel panel-{{ note.note_type }}" id="{{ note.key.id() }}">
-				<div class="panel-heading">
-					<h3 class="panel-title"><span class="note-title">{{ note.note_title }}</span><button type="button" class="btn btn-default btn-xs pull-right" style="margin-top:-3px;" onclick="deleteNote({{ note.key.id() }});"><span class="glyphicon glyphicon-remove"></span></button><button type="button" class="btn btn-default btn-xs pull-right" style="margin-top:-3px;" onclick="updateNote({{ note.key.id() }});"><span class="glyphicon glyphicon-edit"></span></button></h3>
-				</div>
-				<div class="panel-body">{{ note.note_content | safe }}</div>
-				<div class="note-type" hidden>{{ note.note_type }}</div>
-			</div>
-			{% endfor %}
-
+		</li>
+		<li><a class="nav-icon icon-doc-new"><span>New Note</span></a></li>
+		<div class="note-options">
+			<li><a class="nav-icon icon-edit"><span>Edit</span></a></li>
+			<li><a class="nav-icon icon-trash"><span>Delete</span></a></li>
+		</div>
+	</ul>
+	<div class="container">
+		<div class="note">
+			<h1 class="note-header">
+				<p>Hello world! This is a long title so I can see what happens.</p>
+				<small>August 23, 2014</small>
+				<a class="note-favorite icon-star-empty"></a>
+			</h1>
+			<p>And this is some text.</p>
 		</div>
 	</div>
-	<div id="footer">
-		<div class="container">
-			<p class="text-muted credit">Copyright &copy; <script>document.write(new Date().getFullYear());</script> <a href="http://willyg302.wordpress.com/">WillyG Productions</a></p>
-		</div>
-	</div>
-	<script>
-		$(document).ready(function() {
-			$('#summernote').summernote({
-				height: 300
-			});
-		});
-	</script>
+
+	<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
-{% endautoescape %}

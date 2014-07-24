@@ -4,6 +4,12 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
+		bower: {
+			all: {
+				rjsConfig: 'main/js/main.js'
+			}
+		},
+
 		clean: {
 			dist: ['.tmp', 'dist', '!dist/index.yaml']
 		},
@@ -18,7 +24,9 @@ module.exports = function(grunt) {
 							'index.html',
 							'noat.py',
 							'app.yaml',
-							'img/*'
+							'img/*',
+							'fonts/*/*',
+							'locales/*/*'
 						],
 						dest: 'dist/'
 					}
@@ -38,6 +46,23 @@ module.exports = function(grunt) {
 			}
 		},
 
+		requirejs: {
+			dist: {
+				options: {
+					baseUrl: 'main/js',
+					mainConfigFile: 'main/js/main.js',
+					out: 'dist/js/main.js',
+					name: 'main',
+					optimize: 'uglify',
+					findNestedDependencies: true,
+					useStrict: true,
+					wrapShim: true,
+					wrap: true,
+					include: ['../bower_components/requirejs/require.js']
+				}
+			}
+		},
+
 		useminPrepare: {
 			html: 'main/index.html',
 			options: {
@@ -49,9 +74,19 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('default', [
+	grunt.registerTask('build', [
 		'clean:dist',
 		'less',
-		'useminPrepare', 'copy', 'concat', 'cssmin', 'uglify', 'usemin'
+		'useminPrepare',
+		'requirejs',
+		'copy',
+		'concat',
+		'cssmin',
+		'uglify',
+		'usemin'
+	]);
+
+	grunt.registerTask('default', [
+		'build'
 	]);
 };

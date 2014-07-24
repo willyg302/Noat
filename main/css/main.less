@@ -1,12 +1,17 @@
 @bootless: '../bower_components/bootstrap/less/';
-
+/*
 // Core variables and mixins
 @import "@{bootless}variables.less";
 @import "@{bootless}mixins.less";
-
+*/
 // Application variables
 @import "variables.less";
 
+// Reset
+@import "@{bootless}normalize.less";
+
+@import "noaticons.less";
+/*
 // Reset
 @import "@{bootless}normalize.less";
 @import "@{bootless}print.less";
@@ -52,6 +57,6 @@
 // Utility classes
 @import "@{bootless}utilities.less";
 @import "@{bootless}responsive-utilities.less";
-
+*/
 // Noat styles
 @import "app.less";

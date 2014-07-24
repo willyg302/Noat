@@ -1,38 +1,333 @@
-/* Sticky footer */
-
-html, body {
-	height: 100%;
+.box-sizing(@type: border-box) {
+	-webkit-box-sizing: @type;
+	   -moz-box-sizing: @type;
+	        box-sizing: @type;
 }
 
-#wrap {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -60px;
-	padding: 0 0 60px;
+.transition(@transition) {
+	-webkit-transition: @transition;
+	   -moz-transition: @transition;
+	    -ms-transition: @transition;
+	     -o-transition: @transition;
+	        transition: @transition;
 }
 
-#footer {
-	height: 60px;
-	background-color: #f5f5f5;
+.translate(@x, @y:0) {
+	-webkit-transform: translate(@x, @y);
+	   -moz-transform: translate(@x, @y);
+	    -ms-transform: translate(@x, @y);
+	     -o-transform: translate(@x, @y);
+	        transform: translate(@x, @y);
 }
 
-/* Custom page CSS */
+.transiform(@property, @duration) {
+	-webkit-transition: -webkit-transform @duration, @property @duration;
+	   -moz-transition:    -moz-transform @duration, @property @duration;
+	    -ms-transition:     -ms-transform @duration, @property @duration;
+	     -o-transition:      -o-transform @duration, @property @duration;
+	        transition:         transform @duration, @property @duration;
+}
+
+.placeholder(@color) {
+	&::-webkit-input-placeholder {
+		color: @color;
+	}
+	&:-moz-placeholder {
+		color: @color;
+	}
+	&::-moz-placeholder {
+		color: @color;
+	}
+	&:-ms-input-placeholder {
+		color: @color;
+	}
+	&:focus::-webkit-input-placeholder {
+		color: transparent;
+	}
+}
+
+.hamburger(@fore, @back) {
+	background: @fore;
+	box-shadow: 0 3px @back, 0 -6px @fore, 0 -9px @back, 0 -12px @fore;
+}
+
+/* From Google material design */
+@cobalt: #37474f;       /* Blue Grey 800 */
+@cobalt-light: #607d8b; /* Blue Grey 500 */
+@cobalt-soft: #cfd8dc;  /* Blue Grey 100 */
+@cobalt-white: #eceff1; /* Blue Grey 50 */
+@blue-dark: #01579b;    /* Light Blue 900 */
+@blue: #03a9f4;         /* Light Blue 500 */
+
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+*,
+*:after,
+*::before {
+	.box-sizing()
+}
 
 body {
-	padding-top: 70px;
+	background: @blue-dark;
+	font-family: 'Open Sans', Arial, sans-serif;
 }
+
+.nav-icon:before {
+	font-family: 'noat';
+	margin: 0;
+	speak: none;
+	width: 20px;
+}
+
+@media screen and (max-width: 740px) {
+	.nav-icon span {
+		display: none;
+	}
+}
+
+/*** COMPONENTS ***/
+
+.menu-main, .menu-main ul {
+	margin: 0;
+	padding: 0;
+	background: white;
+	font-weight: 300;
+	line-height: 60px;
+}
+
+.menu-main {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	font-size: 18px;
+}
+
+.menu-main a {
+	display: block;
+	color: @cobalt;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.no-select {
+	cursor: default;
+}
+
+.menu a {
+	padding-left: 5px;
+}
+
+.menu-main a.sidenav-note {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.no-touch a.nav-icon:hover, .no-touch a.trigger:hover {
+	background: @cobalt;
+	color: white;
+}
+
+.no-touch .menu a:not(.no-select):hover {
+	background: @cobalt-white;
+}
+
+.menu a.sidenav-note.selected, .menu a.sidenav-note.selected:hover {
+	padding-left: 0px;
+	background: @cobalt-light;
+	color: white;
+	border-left: 5px solid @cobalt;
+}
+
+.menu-main > li, .note-options > li {
+	display: block;
+	float: left;
+	border-right: 1px solid @cobalt-soft;
+}
+
+.menu-main li.sidenav-wrapper {
+	width: 60px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	 -khtml-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+}
+
+.note-options {
+	float: right;
+}
+
+.note-options > li {
+	border-right: none;
+	border-left: 1px solid @cobalt-soft;
+}
+
+.menu-main > li > a, .note-options > li > a {
+	padding: 0 20px;
+}
+
+.menu-main > li > a > span, .note-options > li > a > span {
+	padding-left: 5px;
+}
+
+.menu-main:after {
+	display: table;
+	clear: both;
+	content: '';
+}
+
+.menu {
+	border-bottom: 1px solid @cobalt-soft;
+}
+
+.menu li:not(:first-child) a, .menu li li a {
+	box-shadow: inset 0 1px @cobalt-soft
+}
+
+.submenu li {
+	overflow: hidden;
+	height: 0;
+	.transition(height 0.3s);
+}
+
+.submenu li a {
+	color: @cobalt-light;
+}
+
+input.search {
+	padding-left: 60px;
+	outline: none;
+	border: none;
+	background: transparent;
+	color: @cobalt;
+	font-weight: 300;
+	cursor: pointer;
+}
+
+/* placeholder */
+
+.search {
+	.placeholder(@cobalt);
+}
+
+input.search:focus {
+	cursor: text;
+}
+
+.menu-main a.icon-search {
+	position: absolute;
+	top: 0;
+}
+
+/* Hide these spans (there for screen reading) */
+.icon-menu span, .icon-search span {
+	width: 0;
+	height: 0;
+	display: block;
+	overflow: hidden;
+}
+
+/* Menu open trigger ("hamburger") */
+
+.trigger::before {
+	margin-left: -5px;
+	vertical-align: -2px;
+	width: 30px;
+	height: 3px;
+	content: '';
+	.hamburger(@cobalt, white);
+}
+
+.no-touch .trigger:hover::before, .no-touch .trigger.selected:hover::before {
+	.hamburger(white, @cobalt);
+}
+
+.trigger.selected::before {
+	.hamburger(@blue, white);
+}
+
+/* Sidenav */
+
+.sidenav {
+	position: fixed;
+	top: 60px;
+	bottom: 0;
+	overflow: hidden;
+	width: 60px;
+	border-top: 1px solid @cobalt-soft;
+	background: white;
+	.translate(-60px);
+	.transiform(width, 0.3s);
+}
+
+.sidenav.open-all, .sidenav.open-part {
+	.translate(0px);
+}
+
+.sidenav.open-all {
+	width: 340px;
+}
+
+.sidenav.open-all .submenu li {
+	height: 60px;
+}
+
+@media screen and (max-width: 422px) { 
+	.sidenav.open-all {
+		.translate(0px);
+		width: 100%;
+	}
+
+	.sidenav.open-all .scroller {
+		width: 105%
+	}
+}
+
+/* Scroller (Sidenav) */
+
+.scroller {
+	position: absolute;
+	overflow-y: scroll;
+	width: 355px;
+	height: 100%;
+}
+
+/* Note */
 
 .container {
-	width: auto;
-	max-width: 960px;
-	padding: 0 15px;
+	margin-top: 60px;
+	padding: 10px;
+	color: @cobalt;	
 }
 
-.container .credit {
-	margin: 20px 0;
+.note {
+	padding: 15px;
+	background: white;
+	border-radius: 5px;
 }
 
-.modal-wide {
-	width: 100%;
+.note-header {
+	margin-top: 0;
+	border-bottom: 1px solid @cobalt-soft;
+}
+
+.note-header small {
+	color: @cobalt-light;
+	font-weight: 300;
+	font-style: italic;
+}
+
+.note-header > * {
+	margin: 0;
+}
+
+.note-favorite {
+	color: @cobalt-light;
+	float: right!important;
 }
