@@ -1,5 +1,14 @@
 project = 'Noat'
 
+def _npm_bower(command):
+	strap.run('npm {}'.format(command))
+	with strap.root('main'):
+		strap.run('bower {}'.format(command))
+
+def clean():
+	_npm_bower('prune')
+	_npm_bower('cache clean')
+
 def generate_app_yaml():
 	with open('dist/app.yaml', 'r+') as f:
 		data = f.read().replace('{{ appname }}', raw_input('App name: '))
@@ -7,13 +16,15 @@ def generate_app_yaml():
 		f.write(data)
 		f.truncate()
 
+def server():
+	with strap.root('dist'):
+		strap.run('python -m SimpleHTTPServer')
+
 def build():
-	strap.run(['grunt', generate_app_yaml])
+	strap.run(['grunt', generate_app_yaml, server])
 
 def install():
-	strap.run('npm install')
-	with strap.root('main'):
-		strap.run('bower install')
+	_npm_bower('install')
 
 def default():
 	pass

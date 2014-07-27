@@ -1,30 +1,24 @@
+'use strict';
+
 require.config({
 	packages: [],
 	paths: {
 		// Dependencies and libraries
-		'text'              : '../bower_components/requirejs-text/text',
+		'angular'           : '../bower_components/angular/angular.min',
 		'jquery'            : '../bower_components/jquery/dist/jquery.min',
-		'underscore'        : '../bower_components/underscore/underscore',
-		'i18next'           : '../bower_components/i18next/i18next.min',
-		// Backbone
-		'backbone'          : '../bower_components/backbone/backbone',
-		// Other libraries
-		'bootstrap'         : '../bower_components/bootstrap/dist/js/bootstrap.min'
+
+		'i18n'              : '../bower_components/angular-translate/angular-translate.min',
+		'i18n-loader'       : '../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min'
 	},
 	shim: {
-		'underscore': {
-			exports: '_'
+		'angular': {
+			exports: 'angular'
 		},
-		'backbone': {
-			deps: ['underscore', 'jquery'],
-			exports: 'Backbone'
+		'i18n': {
+			deps: ['angular']
 		},
-		'bootstrap': {
-			deps: ['jquery']
-		},
-		'i18next': {
-			deps: ['jquery'],
-			exports: 'i18n'
+		'i18n-loader': {
+			deps: ['i18n']
 		}
 	},
 	findNestedDependencies: true,
@@ -32,16 +26,8 @@ require.config({
 });
 
 require([
-	'jquery',
+	'angular',
 	'app'
-], function($, App) {
-	'use strict';
-
-	function startApp() {
-		App.start();
-	}
-
-	$(document).ready(function() {
-		startApp();
-	});
+], function(angular, app) {
+	angular.bootstrap(document, ['noat']);
 });

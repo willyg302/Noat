@@ -4,13 +4,25 @@
 @import "@{bootless}variables.less";
 @import "@{bootless}mixins.less";
 */
-// Application variables
-@import "variables.less";
+
+@import "@{bootless}mixins/vendor-prefixes.less";
+@import "@{bootless}mixins/text-overflow.less";
+
+
 
 // Reset
 @import "@{bootless}normalize.less";
 
+// Application variables/mixins
+@import "variables.less";
+@import "mixins.less";
+
+
+
 @import "noaticons.less";
+
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 /*
 // Reset
 @import "@{bootless}normalize.less";

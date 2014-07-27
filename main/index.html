@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html>
 <head>
 	<title>Noat</title>
 	<meta charset="utf-8">
@@ -9,25 +9,22 @@
 	<!-- build:css css/main.css -->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<!-- endbuild -->
-	<!-- build:js js/vendor/modernizr.js -->
-	<script src="bower_components/modernizr/modernizr.js"></script>
-	<!-- endbuild -->
 
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 </head>
 <body>
 	<ul id="menu" class="menu-main">
 		<li class="sidenav-wrapper">
-			<a class="trigger icon-menu"><span>Menu</span></a>
+			<a class="trigger icon-menu"><span>{{ 'menu' | translate }}</span></a>
 			<nav class="sidenav">
 				<div class="scroller">
 					<ul class="menu">
 						<li class="search-item">
-							<a class="icon-search no-select"><span>Search</span></a>
-							<input placeholder="Search" type="search" class="search">
+							<a class="icon-search no-select"><span>{{ 'search' | translate }}</span></a>
+							<input placeholder="{{ 'search' | translate }}" type="search" class="search">
 						</li>
 						<li>
-							<a class="icon-home no-select">All Notes</a>
+							<a class="icon-home no-select">{{ 'all' | translate }}</a>
 							<ul class="submenu">
 								<li><a class="sidenav-note icon-star">Some note</a></li>
 								<li><a class="sidenav-note icon-star-empty selected">Hello world! This is a long title so I can see what happens.</a></li>
@@ -42,10 +39,10 @@
 				</div>
 			</nav>
 		</li>
-		<li><a class="nav-icon icon-doc-new"><span>New Note</span></a></li>
+		<li><a class="nav-icon icon-doc-new"><span>{{ 'new' | translate }}</span></a></li>
 		<div class="note-options">
-			<li><a class="nav-icon icon-edit"><span>Edit</span></a></li>
-			<li><a class="nav-icon icon-trash"><span>Delete</span></a></li>
+			<li><a class="nav-icon icon-edit"><span>{{ 'edit' | translate }}</span></a></li>
+			<li><a class="nav-icon icon-trash"><span>{{ 'delete' | translate }}</span></a></li>
 		</div>
 	</ul>
 	<div class="container">
