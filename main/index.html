@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
 	<title>Noat</title>
 	<meta charset="utf-8">
@@ -9,14 +9,27 @@
 	<!-- build:css css/main.css -->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<!-- endbuild -->
+	<!-- build:js js/vendor/modernizr.js -->
+	<script src="bower_components/modernizr/modernizr.js"></script>
+	<!-- endbuild -->
 
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+	<base href="/">
 </head>
-<body>
+<body ng-controller="MainController">
 	<ul id="menu" class="menu-main">
 		<li class="sidenav-wrapper">
-			<a class="trigger icon-menu"><span>{{ 'menu' | translate }}</span></a>
-			<nav class="sidenav">
+			<a class="trigger icon-menu"
+			   ng-class="{'selected': menuOpen}"
+			   ng-mouseenter="triggerHover = true"
+			   ng-mouseleave="triggerHover = false"
+			   ng-click="triggerClick($event)">
+				<span>{{ 'menu' | translate }}</span>
+			</a>
+			<nav class="sidenav"
+			     ng-class="{'open-part': triggerHover, 'open-all': menuOpen}"
+			     ng-mouseover="menuOver()"
+			     click-off="menuClose()">
 				<div class="scroller">
 					<ul class="menu">
 						<li class="search-item">
@@ -46,16 +59,8 @@
 		</div>
 	</ul>
 	<div class="container">
-		<div class="note">
-			<h1 class="note-header">
-				<p>Hello world! This is a long title so I can see what happens.</p>
-				<small>August 23, 2014</small>
-				<a class="note-favorite icon-star-empty"></a>
-			</h1>
-			<p>And this is some text.</p>
-		</div>
+		<div ng-view></div>
 	</div>
-
 	<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

@@ -7,12 +7,17 @@ require.config({
 		'angular'           : '../bower_components/angular/angular.min',
 		'jquery'            : '../bower_components/jquery/dist/jquery.min',
 
+		'angular-route'     : '../bower_components/angular-route/angular-route.min',
+
 		'i18n'              : '../bower_components/angular-translate/angular-translate.min',
 		'i18n-loader'       : '../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min'
 	},
 	shim: {
 		'angular': {
 			exports: 'angular'
+		},
+		'angular-route': {
+			deps: ['angular']
 		},
 		'i18n': {
 			deps: ['angular']
@@ -27,7 +32,7 @@ require.config({
 
 require([
 	'angular',
-	'app'
+	'./app'
 ], function(angular, app) {
 	angular.bootstrap(document, ['noat']);
 });

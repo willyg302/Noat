@@ -26,7 +26,8 @@ module.exports = function(grunt) {
 							'app.yaml',
 							'img/*',
 							'fonts/*/*',
-							'locales/*'
+							'locales/*',
+							'partials/*'
 						],
 						dest: 'dist/'
 					}
@@ -82,7 +83,7 @@ module.exports = function(grunt) {
 		'copy',
 		'concat',
 		'cssmin',
-		//'uglify',
+		'uglify',
 		'usemin'
 	]);
 
