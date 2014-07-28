@@ -51,8 +51,69 @@ define([
 	}]);
 
 	app.controller('MainController', ['$scope', function($scope) {
+		$scope.query = '';
 		$scope.triggerHover = false;
 		$scope.menuOpen = false;
+		$scope.selectedNote = 2;
+		$scope.notes = [
+			{
+				'id': 1,
+				'title': 'Note 1',
+				'date': 'August 23, 2014',
+				'favorited': false,
+				'deleted': false,
+				'content': 'Text 1'
+			},
+			{
+				'id': 2,
+				'title': 'Note 2',
+				'date': 'August 24, 2014',
+				'favorited': true,
+				'deleted': false,
+				'content': 'Text 2'
+			},
+			{
+				'id': 3,
+				'title': 'Note 3',
+				'date': 'August 25, 2014',
+				'favorited': false,
+				'deleted': true,
+				'content': 'Text 3'
+			},
+			{
+				'id': 4,
+				'title': 'Note 4',
+				'date': 'August 26, 2014',
+				'favorited': true,
+				'deleted': true,
+				'content': 'Text 4'
+			}
+		];
+
+		$scope.noteFilter = 'home';
+
+		$scope.filterNotes = function(query) {
+			return function(note) {
+				if (query.indexOf('#') === 0) {
+					if (['#favorite', '#star'].indexOf(query) !== -1) {
+						$scope.noteFilter = 'star';
+						return note.favorited && !note.deleted;
+					} else if (['#deleted', '#trash'].indexOf(query) !== -1) {
+						$scope.noteFilter = 'trash';
+						return note.deleted;
+					}
+					// Do not filter # until as late as possible
+					$scope.noteFilter = 'home';
+					return !note.deleted;
+				}
+				$scope.noteFilter = 'home';
+				return note.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 && !note.deleted;
+			};
+		};
+
+		$scope.selectNote = function(id) {
+			$scope.selectedNote = id;
+		};
 
 		var _openMenu = function() {
 			if ($scope.menuOpen) {

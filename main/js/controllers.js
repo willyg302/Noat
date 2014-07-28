@@ -10,7 +10,7 @@ define([
 			'date': 'August 23, 2014',
 			'favorited': true,
 			'content': 'And this is some text.'
-		}
+		};
 	}]);
 	return controllers;
 });

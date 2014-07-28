@@ -34,20 +34,16 @@
 					<ul class="menu">
 						<li class="search-item">
 							<a class="icon-search no-select"><span>{{ 'search' | translate }}</span></a>
-							<input placeholder="{{ 'search' | translate }}" type="search" class="search">
+							<input placeholder="{{ 'search' | translate }}" type="search" class="search" ng-model="query">
 						</li>
 						<li>
-							<a class="icon-home no-select">{{ 'all' | translate }}</a>
+							<a class="icon-{{ noteFilter }} no-select">{{ noteFilter | translate }}</a>
 							<ul class="submenu">
-								<li><a class="sidenav-note icon-star">Some note</a></li>
-								<li><a class="sidenav-note icon-star-empty selected">Hello world! This is a long title so I can see what happens.</a></li>
-								<li><a class="sidenav-note icon-star-empty">Third note</a></li>
+								<li ng-repeat="note in notes | filter:filterNotes(query)">
+									<a class="sidenav-note" ng-class="{'selected': note.id === selectedNote, 'icon-star': note.favorited, 'icon-star-empty': !note.favorited}" ng-click="selectNote(note.id)">{{ note.title }}</a>
+								</li>
 							</ul>
 						</li>
-						<!--
-						<li><a class="icon-star">Favorites</a></li>
-						<li><a class="icon-trash">Trash</a></li>
-						-->
 					</ul>
 				</div>
 			</nav>
