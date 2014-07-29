@@ -40,7 +40,7 @@
 							<a class="icon-{{ noteFilter }} no-select">{{ noteFilter | translate }}</a>
 							<ul class="submenu">
 								<li ng-repeat="note in notes | filter:filterNotes(query)">
-									<a class="sidenav-note" ng-class="{'selected': note.id === selectedNote, 'icon-star': note.favorited, 'icon-star-empty': !note.favorited}" ng-click="selectNote(note.id)">{{ note.title }}</a>
+									<a class="sidenav-note" ng-class="{'selected': note.id === selectedNote, 'icon-star': note.favorited, 'icon-star-empty': !note.favorited}" href="#note/{{ note.id }}">{{ note.title }}</a>
 								</li>
 							</ul>
 						</li>
@@ -51,7 +51,8 @@
 		<li><a class="nav-icon icon-doc-new"><span>{{ 'new' | translate }}</span></a></li>
 		<div class="note-options">
 			<li><a class="nav-icon icon-edit"><span>{{ 'edit' | translate }}</span></a></li>
-			<li><a class="nav-icon icon-trash"><span>{{ 'delete' | translate }}</span></a></li>
+			<li ng-show="showRestore()"><a class="nav-icon icon-arrows-cw"><span>{{ 'restore' | translate }}</span></a></li>
+			<li><a class="nav-icon icon-trash"><span>{{ showRestore() ? 'forever' : 'delete' | translate }}</span></a></li>
 		</div>
 	</ul>
 	<div class="container">

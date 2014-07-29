@@ -7,5 +7,7 @@
   "trash": "Trash",
   "new": "New Note",
   "edit": "Edit",
-  "delete": "Delete"
+  "restore": "Restore",
+  "delete": "Delete",
+  "forever": "Forever"
 }

@@ -21,6 +21,9 @@ define([
 
 			$routeProvider
 				.when('/', {
+					templateUrl: 'partials/select.html'
+				})
+				.when('/note/:noteId', {
 					templateUrl: 'partials/note.html',
 					controller: 'NoteController'
 				})
@@ -54,10 +57,10 @@ define([
 		$scope.query = '';
 		$scope.triggerHover = false;
 		$scope.menuOpen = false;
-		$scope.selectedNote = 2;
+		$scope.selectedNote = null;
 		$scope.notes = [
 			{
-				'id': 1,
+				'id': '1',
 				'title': 'Note 1',
 				'date': 'August 23, 2014',
 				'favorited': false,
@@ -65,7 +68,7 @@ define([
 				'content': 'Text 1'
 			},
 			{
-				'id': 2,
+				'id': '2',
 				'title': 'Note 2',
 				'date': 'August 24, 2014',
 				'favorited': true,
@@ -73,7 +76,7 @@ define([
 				'content': 'Text 2'
 			},
 			{
-				'id': 3,
+				'id': '3',
 				'title': 'Note 3',
 				'date': 'August 25, 2014',
 				'favorited': false,
@@ -81,7 +84,7 @@ define([
 				'content': 'Text 3'
 			},
 			{
-				'id': 4,
+				'id': '4',
 				'title': 'Note 4',
 				'date': 'August 26, 2014',
 				'favorited': true,
@@ -111,8 +114,20 @@ define([
 			};
 		};
 
-		$scope.selectNote = function(id) {
-			$scope.selectedNote = id;
+		$scope.getNote = function(id) {
+			for (var i = 0; i < $scope.notes.length; i++) {
+				if ($scope.notes[i].id === id) {
+					return $scope.notes[i];
+				}
+			}
+			return null;
+		};
+
+		$scope.showRestore = function() {
+			if ($scope.selectedNote === null) {
+				return false;
+			}
+			return $scope.getNote($scope.selectedNote).deleted;
 		};
 
 		var _openMenu = function() {
