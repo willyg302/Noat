@@ -9,5 +9,6 @@
   "edit": "Edit",
   "restore": "Restore",
   "delete": "Delete",
-  "forever": "Forever"
+  "forever": "Forever",
+  "select": "Select a note"
 }

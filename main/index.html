@@ -24,7 +24,7 @@
 			   ng-mouseenter="triggerHover = true"
 			   ng-mouseleave="triggerHover = false"
 			   ng-click="triggerClick($event)">
-				<span>{{ 'menu' | translate }}</span>
+				<span ng-cloak>{{ 'menu' | translate }}</span>
 			</a>
 			<nav class="sidenav"
 			     ng-class="{'open-part': triggerHover, 'open-all': menuOpen}"
@@ -48,11 +48,23 @@
 				</div>
 			</nav>
 		</li>
-		<li><a class="nav-icon icon-doc-new"><span>{{ 'new' | translate }}</span></a></li>
+		<li><a class="nav-icon icon-doc-new"><span ng-cloak>{{ 'new' | translate }}</span></a></li>
 		<div class="note-options">
-			<li><a class="nav-icon icon-edit"><span>{{ 'edit' | translate }}</span></a></li>
-			<li ng-show="showRestore()"><a class="nav-icon icon-arrows-cw"><span>{{ 'restore' | translate }}</span></a></li>
-			<li><a class="nav-icon icon-trash"><span>{{ showRestore() ? 'forever' : 'delete' | translate }}</span></a></li>
+			<li ng-show="showButton()">
+				<a class="nav-icon icon-edit">
+					<span ng-cloak>{{ 'edit' | translate }}</span>
+				</a>
+			</li>
+			<li ng-show="showRestore()">
+				<a class="nav-icon icon-arrows-cw">
+					<span ng-cloak>{{ 'restore' | translate }}</span>
+				</a>
+			</li>
+			<li ng-show="showButton()">
+				<a class="nav-icon icon-trash">
+					<span ng-cloak>{{ showRestore() ? 'forever' : 'delete' | translate }}</span>
+				</a>
+			</li>
 		</div>
 	</ul>
 	<div class="container">

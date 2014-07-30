@@ -123,11 +123,12 @@ define([
 			return null;
 		};
 
+		$scope.showButton = function() {
+			return $scope.selectedNote !== null;
+		};
+
 		$scope.showRestore = function() {
-			if ($scope.selectedNote === null) {
-				return false;
-			}
-			return $scope.getNote($scope.selectedNote).deleted;
+			return $scope.showButton() && $scope.getNote($scope.selectedNote).deleted;
 		};
 
 		var _openMenu = function() {

@@ -4,6 +4,10 @@
 	.box-sizing(border-box);
 }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+}
+
 body {
 	background: @blue-dark;
 	font-family: 'Open Sans', Arial, sans-serif;
@@ -233,7 +237,19 @@ input.search:focus {
 .container {
 	margin-top: 60px;
 	padding: 10px;
-	color: @cobalt;	
+	color: @cobalt;
+}
+
+.no-note {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -107px;
+	margin-top: 5px;
+	font-size: 36px;
+	color: @blue;
+	text-align: center;
+	z-index: -1;
 }
 
 .note {
