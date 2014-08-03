@@ -18,6 +18,15 @@ handlers:
 - url: /img
   static_dir: img
 
+- url: /fonts
+  static_dir: fonts
+
+- url: /locales
+  static_dir: locales
+
+- url: /partials
+  static_dir: partials
+
 - url: /admin/.*
   script: google.appengine.ext.admin.application
   login: admin
