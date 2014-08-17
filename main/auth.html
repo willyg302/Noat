@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Noat</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="William Gaul">
+	<style>
+		input {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			width: 320px;
+			margin-left: -166px;
+			margin-top: -28px;
+			padding: 5px;
+			font-size: 36px;
+			outline: 0;
+			border: 1px solid #607d8b;
+			text-align: center;
+		}
+		input:focus {
+			border-color: #03a9f4;
+		}
+	</style>
+</head>
+<body>
+	<form action="/" method="post">
+		<input type="text" name="auth" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
+	</form>
+</body>
+</html>
