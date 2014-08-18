@@ -17,8 +17,8 @@ def generate_app_yaml():
 		f.truncate()
 
 def server():
-	with strap.root('dist'):
-		strap.run('python -m SimpleHTTPServer')
+	with strap.root('node_modules/.bin'):
+		strap.run('http-server ../../dist')
 
 def build():
 	strap.run(['grunt', generate_app_yaml, server])

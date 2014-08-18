@@ -8,6 +8,8 @@
   "dependencies": {
   },
   "devDependencies": {
+    "http-server": "~0.6.1",
+
     "grunt": "~0.4.5",
     
     "grunt-bower-requirejs": "~0.11.0",
