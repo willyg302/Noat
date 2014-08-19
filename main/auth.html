@@ -23,10 +23,22 @@
 			border-color: #03a9f4;
 		}
 	</style>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+	<script>
+		function onKeyDown(event, form) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				var auth = form['auth'];
+				auth.value = CryptoJS.SHA256(auth.value);
+				form.submit();
+				return false;
+			}
+		}
+	</script>
 </head>
 <body>
 	<form action="/" method="post">
-		<input type="text" name="auth" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
+		<input type="text" name="auth" onkeydown="onKeyDown(event, this.form);">
 	</form>
 </body>
 </html>

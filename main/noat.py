@@ -1,59 +1,42 @@
 import os
 import urllib
 import json
+import datetime
+import hashlib
 
 import jinja2
 import webapp2
 
+import Cookie
 from google.appengine.ext import ndb
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-	extensions=['jinja2.ext.autoescape']
+	extensions=['jinja2.ext.autoescape'],
+	# To avoid clash with Angular
+	variable_start_string='((',
+	variable_end_string='))',
+	autoescape=True
 )
 
 
-
-
-
-
-def login_required(handler_method):
-    """A decorator to require that a user be logged in to access a handler.
-
-    To use it, decorate your get() method like this::
-
-        @login_required
-        def get(self):
-            user = users.get_current_user(self)
-            self.response.out.write('Hello, ' + user.nickname())
-
-    We will redirect to a login page if the user is not logged in. We always
-    redirect to the request URI, and Google Accounts only redirects back as
-    a GET request, so this should not be used for POSTs.
-    """
-    def check_login(self, *args, **kwargs):
-        if self.request.method != 'GET':
-            self.abort(400, detail='The login_required decorator '
-                'can only be used for GET requests.')
-
-        user = users.get_current_user()
-        if not user:
-            return self.redirect(users.create_login_url(self.request.url))
-        else:
-            handler_method(self, *args, **kwargs)
-
-    return check_login
-
+def get_app_key():
+	return hashlib.sha256(os.environ['APP_KEY']).hexdigest()
 
 
 def auth_redirect(f):
 	def check_auth(self, *args, **kwargs):
-		
+		if self.request.method != 'GET':
+			self.abort(400, detail='Auth redirection can only be used for GET requests.')
 
+		cookie = self.request.cookies.get('noat', None)
+		if cookie is None or cookie != get_app_key():
+			return self.redirect('/')
 
+		f(self, *args, **kwargs)
 
-
+	return check_auth
 
 
 class Note(ndb.Model):
@@ -71,7 +54,7 @@ class RequestHandler(webapp2.RequestHandler):
 		self.response.headers['Content-Type'] = 'application/json'
 		json.dump(content, self.response.out)
 
-	def template(self, name, content=None):
+	def template(self, name, content={}):
 		self.response.write(JINJA_ENVIRONMENT.get_template(name).render(content))
 
 
@@ -82,11 +65,21 @@ class MainPage(RequestHandler):
 
 	def post(self):
 		auth = self.request.get('auth')
-		# @TODO
+		if auth != get_app_key():
+			return self.redirect('/')
+
+		expires = datetime.datetime.now() + datetime.timedelta(30)
+		cookie = Cookie.SimpleCookie()
+		cookie['noat'] = get_app_key()
+		cookie['noat']['expires'] = expires.strftime('%a, %d %b %Y %H:%M:%S')
+		cookie['noat']['path'] = '/'
+		self.response.headers.add_header('Set-Cookie', cookie['noat'].OutputString())
+		return self.redirect('/opensesame')
 
 
 class AppHandler(RequestHandler):
 
+	@auth_redirect
 	def get(self):
 		self.template('index.html')
 
@@ -121,6 +114,7 @@ class NoteHandler(RequestHandler):
 
 	def delete(self, nid):
 		'''Delete a note'''
+		# @TODO: Handle first delete vs. permanent deletion
 		Note.get_by_id(int(nid)).key.delete()
 		self.rest({'success': True})
 

@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 						cwd: 'main/',
 						src: [
 							'index.html',
+							'auth.html',
 							'noat.py',
 							'app.yaml',
 							'img/*',

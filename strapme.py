@@ -11,17 +11,22 @@ def clean():
 
 def generate_app_yaml():
 	with open('dist/app.yaml', 'r+') as f:
-		data = f.read().replace('{{ appname }}', raw_input('App name: '))
+		data = f.read().replace('{{ appname }}', raw_input('App name: ')).replace('{{ appkey }}', raw_input('App key: '))
 		f.seek(0)
 		f.write(data)
 		f.truncate()
 
 def server():
-	with strap.root('node_modules/.bin'):
-		strap.run('http-server ../../dist')
+	strap.run('node_modules/.bin/http-server dist')
+
+def gae_server():
+	strap.run('~/appengine/dev_appserver.py dist/')
+
+def gae_upload():
+	strap.run('~/appengine/appcfg.py update dist/')
 
 def build():
-	strap.run(['grunt', generate_app_yaml, server])
+	strap.run(['grunt', generate_app_yaml])
 
 def install():
 	_npm_bower('install')
