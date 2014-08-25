@@ -10,7 +10,9 @@
     "angular-route": "~1.3.0",
 
     "angular-translate": "~2.2.0",
-    "angular-translate-loader-static-files": "~2.2.0"
+    "angular-translate-loader-static-files": "~2.2.0",
+
+    "angular-marked": "~0.0.12"
   },
   "devDependencies": {}
 }

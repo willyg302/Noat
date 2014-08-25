@@ -65,7 +65,17 @@ define([
 				'date': 'August 23, 2014',
 				'favorited': false,
 				'deleted': false,
-				'content': 'Text 1'
+				'content': '# Text 1\n\n' + 
+'```python\n' +
+'def main(*args, **kwargs):\n' +
+'    s = "string"  # This is a comment\n' +
+'    return s\n' +
+'```\n\nOther junk\n\n' +
+'```javascript\n' +
+'var f = function(x) {\n' +
+'	return x * x;  // Squares x\n' +
+'};\n' +
+'```\n'
 			},
 			{
 				'id': '2',
@@ -73,7 +83,7 @@ define([
 				'date': 'August 24, 2014',
 				'favorited': true,
 				'deleted': false,
-				'content': 'Text 2'
+				'content': '[Text 2](https://www.google.com/)'
 			},
 			{
 				'id': '3',
@@ -81,7 +91,7 @@ define([
 				'date': 'August 25, 2014',
 				'favorited': false,
 				'deleted': true,
-				'content': 'Text 3'
+				'content': '**bold** *italic* `code`'
 			},
 			{
 				'id': '4',
@@ -89,7 +99,7 @@ define([
 				'date': 'August 26, 2014',
 				'favorited': true,
 				'deleted': true,
-				'content': 'Text 4'
+				'content': '![](https://d1n0x3qji82z53.cloudfront.net/ace-logo.png)'
 			}
 		];
 
