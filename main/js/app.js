@@ -27,6 +27,10 @@ define([
 					templateUrl: 'partials/note.html',
 					controller: 'NoteController'
 				})
+				.when('/edit/:noteId', {
+					templateUrl: 'partials/edit.html',
+					controller: 'EditController'
+				})
 				.otherwise({
 					redirectTo: '/'
 				});
@@ -63,6 +67,8 @@ define([
 
 		$scope.noteFilter = 'home';
 
+		$scope.editing = false;
+
 		$scope.filterNotes = function(query) {
 			return function(note) {
 				if (query.indexOf('#') === 0) {
@@ -91,12 +97,20 @@ define([
 			return null;
 		};
 
+		$scope.getSelectedNote = function() {
+			return $scope.getNote($scope.selectedNote);
+		};
+
 		$scope.showButton = function() {
-			return $scope.selectedNote !== null;
+			return $scope.selectedNote !== null && !$scope.editing;
+		};
+
+		$scope.showEditButton = function() {
+			return $scope.editing;
 		};
 
 		$scope.showRestore = function() {
-			return $scope.showButton() && $scope.getNote($scope.selectedNote).deleted;
+			return $scope.showButton() && $scope.getSelectedNote().deleted;
 		};
 
 		var _openMenu = function() {
@@ -135,7 +149,7 @@ define([
 
 
 		$scope.deleteClicked = function() {
-			var note = $scope.getNote($scope.selectedNote);
+			var note = $scope.getSelectedNote();
 			if (note.deleted) {
 				note.$delete(function() {
 					$scope.notes.splice($scope.notes.indexOf(note), 1);
@@ -149,15 +163,32 @@ define([
 		};
 
 		$scope.restoreClicked = function() {
-			var note = $scope.getNote($scope.selectedNote);
+			var note = $scope.getSelectedNote();
 			note.deleted = false;
 			note.$update();
 		};
 
 		$scope.favoriteClicked = function() {
-			var note = $scope.getNote($scope.selectedNote);
+			var note = $scope.getSelectedNote();
 			note.favorited = !note.favorited;
 			note.$update();
+		};
+
+		$scope.editClicked = function() {
+			$location.path('/edit/' + $scope.getSelectedNote().id);
+		};
+
+		$scope.cancelClicked = function() {
+			$scope.editing = false;
+			if ($scope.selectedNote === null) {
+				$location.path('/');
+			} else {
+				$location.path('/note/' + $scope.getSelectedNote().id);
+			}
+		};
+
+		$scope.saveClicked = function() {
+			$scope.$broadcast('save-clicked');
 		};
 	}]);
 

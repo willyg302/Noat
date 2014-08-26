@@ -53,12 +53,12 @@
 			</nav>
 		</li>
 		<li>
-			<a class="nav-icon icon-doc-new">
+			<a class="nav-icon icon-doc-new" href="#edit/new">
 				<span ng-cloak>{{ 'new' | translate }}</span>
 			</a>
 		</li>
 		<div class="note-options">
-			<li ng-show="showButton()">
+			<li ng-show="showButton()" ng-click="editClicked()">
 				<a class="nav-icon icon-edit">
 					<span ng-cloak>{{ 'edit' | translate }}</span>
 				</a>
@@ -68,9 +68,19 @@
 					<span ng-cloak>{{ 'restore' | translate }}</span>
 				</a>
 			</li>
-			<li ng-show="showButton()">
-				<a class="nav-icon icon-trash" ng-click="deleteClicked()">
+			<li ng-show="showButton()" ng-click="deleteClicked()">
+				<a class="nav-icon icon-trash">
 					<span ng-cloak>{{ showRestore() ? 'forever' : 'delete' | translate }}</span>
+				</a>
+			</li>
+			<li ng-show="showEditButton()" ng-click="cancelClicked()">
+				<a class="nav-icon icon-edit">
+					<span ng-cloak>{{ 'cancel' | translate }}</span>
+				</a>
+			</li>
+			<li ng-show="showEditButton()" ng-click="saveClicked()">
+				<a class="nav-icon icon-edit">
+					<span ng-cloak>{{ 'save' | translate }}</span>
 				</a>
 			</li>
 		</div>

@@ -13,7 +13,8 @@
     "angular-translate": "~2.2.0",
     "angular-translate-loader-static-files": "~2.2.0",
 
-    "angular-marked": "~0.0.12"
+    "angular-marked": "~0.0.12",
+    "angular-ace": "~1.0.0"
   },
   "devDependencies": {}
 }

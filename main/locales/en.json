@@ -10,5 +10,7 @@
   "restore": "Restore",
   "delete": "Delete",
   "forever": "Forever",
-  "select": "Select a note"
+  "select": "Select a note",
+  "save": "Save",
+  "cancel": "Cancel"
 }
