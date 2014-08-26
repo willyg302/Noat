@@ -142,6 +142,7 @@ input.search {
 	color: @cobalt;
 	font-weight: 300;
 	cursor: pointer;
+	line-height: normal;
 }
 
 /* placeholder */
@@ -261,6 +262,7 @@ input.search:focus {
 .note-header {
 	margin-top: 0;
 	border-bottom: 1px solid @cobalt-soft;
+	padding-bottom: 8px;
 }
 
 .note-header small {
@@ -276,4 +278,9 @@ input.search:focus {
 .note-favorite {
 	color: @cobalt-light;
 	float: right!important;
+	cursor: pointer;
+}
+
+.note-favorite:hover, .note-favorite:focus {
+	text-decoration: none;
 }

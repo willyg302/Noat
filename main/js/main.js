@@ -8,6 +8,7 @@ require.config({
 		'jquery'            : '../bower_components/jquery/dist/jquery.min',
 
 		'angular-route'     : '../bower_components/angular-route/angular-route.min',
+		'angular-resource'  : '../bower_components/angular-resource/angular-resource.min',
 
 		'i18n'              : '../bower_components/angular-translate/angular-translate.min',
 		'i18n-loader'       : '../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min',
@@ -21,6 +22,9 @@ require.config({
 			exports: 'angular'
 		},
 		'angular-route': {
+			deps: ['angular']
+		},
+		'angular-resource': {
 			deps: ['angular']
 		},
 		'i18n': {

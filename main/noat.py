@@ -4,6 +4,8 @@ import json
 import datetime
 import hashlib
 
+from json import JSONEncoder
+
 import jinja2
 import webapp2
 
@@ -24,7 +26,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 def get_app_key():
 	return hashlib.sha256(os.environ['APP_KEY']).hexdigest()
 
-
 def auth_redirect(f):
 	def check_auth(self, *args, **kwargs):
 		if self.request.method != 'GET':
@@ -32,11 +33,17 @@ def auth_redirect(f):
 
 		cookie = self.request.cookies.get('noat', None)
 		if cookie is None or cookie != get_app_key():
-			return self.redirect('/')
+			return self.redirect('/auth')
 
 		f(self, *args, **kwargs)
 
 	return check_auth
+
+def get_valid_properties(request):
+	d = json.loads(request.body)
+	d.pop('id', None)
+	d.pop('date', None)  # Don't allow date modification!
+	return d
 
 
 class Note(ndb.Model):
@@ -47,18 +54,30 @@ class Note(ndb.Model):
 	deleted = ndb.BooleanProperty()
 	content = ndb.TextProperty()
 
+	def to_dict(self):
+		result = super(Note, self).to_dict()
+		result['id'] = self.key.id()
+		return result
+
+
+class NoteEncoder(JSONEncoder):
+	def default(self, obj):
+		if isinstance(obj, datetime.datetime):
+			return obj.isoformat()
+		return JSONEncoder.default(self, obj)
+
 
 class RequestHandler(webapp2.RequestHandler):
 
 	def rest(self, content):
 		self.response.headers['Content-Type'] = 'application/json'
-		json.dump(content, self.response.out)
+		json.dump(content, self.response.out, cls=NoteEncoder)
 
 	def template(self, name, content={}):
 		self.response.write(JINJA_ENVIRONMENT.get_template(name).render(content))
 
 
-class MainPage(RequestHandler):
+class AuthPage(RequestHandler):
 
 	def get(self):
 		self.template('auth.html')
@@ -66,7 +85,7 @@ class MainPage(RequestHandler):
 	def post(self):
 		auth = self.request.get('auth')
 		if auth != get_app_key():
-			return self.redirect('/')
+			return self.redirect('/auth')
 
 		expires = datetime.datetime.now() + datetime.timedelta(30)
 		cookie = Cookie.SimpleCookie()
@@ -74,7 +93,7 @@ class MainPage(RequestHandler):
 		cookie['noat']['expires'] = expires.strftime('%a, %d %b %Y %H:%M:%S')
 		cookie['noat']['path'] = '/'
 		self.response.headers.add_header('Set-Cookie', cookie['noat'].OutputString())
-		return self.redirect('/opensesame')
+		return self.redirect('/')
 
 
 class AppHandler(RequestHandler):
@@ -89,7 +108,7 @@ class NoteListHandler(RequestHandler):
 	def get(self):
 		'''Get all notes'''
 		notes = Note.query().order(-Note.date).fetch(100)
-		self.rest([n.toDict() for n in notes])
+		self.rest([n.to_dict() for n in notes])
 
 
 class NoteHandler(RequestHandler):
@@ -97,32 +116,32 @@ class NoteHandler(RequestHandler):
 	def get(self, nid):
 		'''Get a single note'''
 		note = Note.get_by_id(int(nid))
-		self.rest(note.toDict())
+		self.rest(note.to_dict())
 
 	def post(self, nid):
 		'''Create a new note'''
-		note = Note(**json.loads(self.request.body))
+		note = Note(**get_valid_properties(self.request))
 		note.put()
-		self.rest(note.toDict())
+		self.rest(note.to_dict())
 
 	def put(self, nid):
 		'''Edit a note'''
 		note = Note.get_by_id(int(nid))
-		note.populate(**json.loads(self.request.body))
+		note.populate(**get_valid_properties(self.request))
 		note.put()
-		self.rest(note.toDict())
+		self.rest(note.to_dict())
 
 	def delete(self, nid):
-		'''Delete a note'''
-		# @TODO: Handle first delete vs. permanent deletion
-		Note.get_by_id(int(nid)).key.delete()
-		self.rest({'success': True})
+		'''Delete a note permanently'''
+		note = Note.get_by_id(int(nid))
+		note.key.delete()
+		self.rest(note.to_dict())
 
 
 application = webapp2.WSGIApplication([
-	('/', MainPage),
-	('/index.html', MainPage),
-	('/opensesame', AppHandler),
+	('/', AppHandler),
+	('/index.html', AppHandler),
+	('/auth', AuthPage),
 	('/notes', NoteListHandler),
 	('/notes/(\d+)', NoteHandler),
 ], debug=True)

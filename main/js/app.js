@@ -53,55 +53,13 @@ define([
 		};
 	}]);
 
-	app.controller('MainController', ['$scope', function($scope) {
+	app.controller('MainController', ['$scope', '$location', 'Note', function($scope, $location, Note) {
 		$scope.query = '';
 		$scope.triggerHover = false;
 		$scope.menuOpen = false;
+
 		$scope.selectedNote = null;
-		$scope.notes = [
-			{
-				'id': '1',
-				'title': 'Note 1',
-				'date': 'August 23, 2014',
-				'favorited': false,
-				'deleted': false,
-				'content': '# Text 1\n\n' + 
-'```python\n' +
-'def main(*args, **kwargs):\n' +
-'    s = "string"  # This is a comment\n' +
-'    return s\n' +
-'```\n\nOther junk\n\n' +
-'```javascript\n' +
-'var f = function(x) {\n' +
-'	return x * x;  // Squares x\n' +
-'};\n' +
-'```\n'
-			},
-			{
-				'id': '2',
-				'title': 'Note 2',
-				'date': 'August 24, 2014',
-				'favorited': true,
-				'deleted': false,
-				'content': '[Text 2](https://www.google.com/)'
-			},
-			{
-				'id': '3',
-				'title': 'Note 3',
-				'date': 'August 25, 2014',
-				'favorited': false,
-				'deleted': true,
-				'content': '**bold** *italic* `code`'
-			},
-			{
-				'id': '4',
-				'title': 'Note 4',
-				'date': 'August 26, 2014',
-				'favorited': true,
-				'deleted': true,
-				'content': '![](https://d1n0x3qji82z53.cloudfront.net/ace-logo.png)'
-			}
-		];
+		$scope.notes = Note.query();
 
 		$scope.noteFilter = 'home';
 
@@ -173,6 +131,33 @@ define([
 
 		$scope.menuClose = function() {
 			_closeMenu();
+		};
+
+
+		$scope.deleteClicked = function() {
+			var note = $scope.getNote($scope.selectedNote);
+			if (note.deleted) {
+				note.$delete(function() {
+					$scope.notes.splice($scope.notes.indexOf(note), 1);
+					$scope.selectedNote = null;
+					$location.path('/');  // No note is selected, back outta there!
+				});
+			} else {
+				note.deleted = true;
+				note.$update();
+			}
+		};
+
+		$scope.restoreClicked = function() {
+			var note = $scope.getNote($scope.selectedNote);
+			note.deleted = false;
+			note.$update();
+		};
+
+		$scope.favoriteClicked = function() {
+			var note = $scope.getNote($scope.selectedNote);
+			note.favorited = !note.favorited;
+			note.$update();
 		};
 	}]);
 

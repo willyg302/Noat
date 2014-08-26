@@ -17,9 +17,13 @@ define([
 	}]);
 
 	controllers.controller('NoteController', ['$scope', '$routeParams', function($scope, $routeParams) {
-		var id = $routeParams.noteId;
+		var id = parseInt($routeParams.noteId);
 		$scope.note = $scope.$parent.getNote(id);
 		$scope.$parent.selectedNote = id;
+
+		$scope.favoriteClicked = function() {
+			$scope.$parent.favoriteClicked();
+		};
 	}]);
 
 	return controllers;

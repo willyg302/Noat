@@ -2,7 +2,7 @@
 	<h1 class="note-header">
 		<p>{{ note.title }}</p>
 		<small>{{ note.date }}</small>
-		<a class="note-favorite" ng-class="note.favorited ? 'icon-star' : 'icon-star-empty'"></a>
+		<a class="note-favorite" ng-click="favoriteClicked()" ng-class="note.favorited ? 'icon-star' : 'icon-star-empty'"></a>
 	</h1>
 	<div marked="note.content"></div>
 </div>

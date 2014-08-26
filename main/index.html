@@ -63,13 +63,13 @@
 					<span ng-cloak>{{ 'edit' | translate }}</span>
 				</a>
 			</li>
-			<li ng-show="showRestore()">
+			<li ng-show="showRestore()" ng-click="restoreClicked()">
 				<a class="nav-icon icon-arrows-cw">
 					<span ng-cloak>{{ 'restore' | translate }}</span>
 				</a>
 			</li>
 			<li ng-show="showButton()">
-				<a class="nav-icon icon-trash">
+				<a class="nav-icon icon-trash" ng-click="deleteClicked()">
 					<span ng-cloak>{{ showRestore() ? 'forever' : 'delete' | translate }}</span>
 				</a>
 			</li>
