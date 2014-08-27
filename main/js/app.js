@@ -190,6 +190,11 @@ define([
 		$scope.saveClicked = function() {
 			$scope.$broadcast('save-clicked');
 		};
+
+		$scope.saveComplete = function() {
+			$scope.editing = false;
+			$location.path('/note/' + $scope.getSelectedNote().id);
+		};
 	}]);
 
 	return app;

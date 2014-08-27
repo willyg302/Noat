@@ -2,7 +2,6 @@ import os
 import urllib
 import json
 import datetime
-import hashlib
 
 from json import JSONEncoder
 
@@ -24,7 +23,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 
 def get_app_key():
-	return hashlib.sha256(os.environ['APP_KEY']).hexdigest()
+	return os.environ['APP_KEY']
 
 def auth_redirect(f):
 	def check_auth(self, *args, **kwargs):

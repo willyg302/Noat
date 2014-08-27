@@ -3,9 +3,10 @@
 define([
 	'angular',
 	'angular-marked',
-	'angular-ace'
+	'angular-ace',
+	'./services'
 ], function(angular) {
-	var controllers = angular.module('noat.controllers', ['hc.marked', 'ace']);
+	var controllers = angular.module('noat.controllers', ['hc.marked', 'ace', 'noat.services']);
 
 	controllers.config(['markedProvider', function(markedProvider) {
 		// Markdown settings
@@ -27,20 +28,20 @@ define([
 		};
 	}]);
 
-	controllers.controller('EditController', ['$scope', '$routeParams', function($scope, $routeParams) {
+	controllers.controller('EditController', ['$scope', '$routeParams', 'Note', function($scope, $routeParams, Note) {
 		$scope.$parent.editing = true;
 
 		var id = $routeParams.noteId;
 		if (id === 'new') {
 			// We're making a new note!
-			$scope.note = {
-				id: -1,
-				title: 'Untitled',
-				date: '',
-				favorited: false,
-				deleted: false,
-				content: ''
-			}
+			var note = new Note();
+			note.id = 0;
+			note.title = 'Untitled';
+			note.date = '';
+			note.favorited = false;
+			note.deleted = false;
+			note.content = '';
+			$scope.note = note;
 		} else {
 			id = parseInt(id);
 			$scope.note = angular.copy($scope.$parent.getNote(id));
@@ -55,9 +56,17 @@ define([
 
 		$scope.$on('save-clicked', function(event, args) {
 			if (id === 'new') {
-				// Create new note, add it to parent note...
+				$scope.note.$save(function() {
+					$scope.$parent.notes.unshift($scope.note);
+					$scope.$parent.selectedNote = $scope.note.id;
+					$scope.$parent.saveComplete();
+				});
 			} else {
-				// Update existing note
+				angular.copy($scope.note, $scope.$parent.getNote(id));
+				$scope.$parent.getNote(id).$update(function() {
+					$scope.$parent.selectedNote = $scope.note.id;
+					$scope.$parent.saveComplete();
+				});
 			}
 		});
 	}]);

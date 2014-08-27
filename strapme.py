@@ -10,8 +10,12 @@ def clean():
 	_npm_bower('cache clean')
 
 def generate_app_yaml():
+	import getpass
+	import hashlib
 	with open('dist/app.yaml', 'r+') as f:
-		data = f.read().replace('{{ appname }}', raw_input('App name: ')).replace('{{ appkey }}', raw_input('App key: '))
+		data = f.read() \
+			.replace('{{ appname }}', raw_input('App name: ')) \
+			.replace('{{ appkey }}', hashlib.sha256(getpass.getpass('App key: ')).hexdigest())
 		f.seek(0)
 		f.write(data)
 		f.truncate()

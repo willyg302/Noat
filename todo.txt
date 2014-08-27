@@ -1,8 +1,1 @@
-strapme.py
-	- Switch key prompt to getpass
-	- sha-hash the key right away
-
-noat.py
-	- When key is sha-hashed, change to just returning it
-
 - Encrypt notes...? (using key)
