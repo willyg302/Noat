@@ -50,7 +50,7 @@ define([
 		$scope.initEditor = function(editor) {
 			editor.getSession().setMode('ace/mode/markdown');
 			editor.setTheme('ace/theme/tomorrow');
-			editor.setFontSize(14);
+			editor.setFontSize(16);
 			editor.getSession().setUseWrapMode(true);
 		};
 

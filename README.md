@@ -52,3 +52,11 @@ Now, I just click on my Noat bookmark, add a new note, paste the link, and save.
 ## Why "Noat"?
 
 There seems to be a recent software development trend of abusing the English language in every way possible when coming up with app names. Noat continues this tradition in style. Plus note rhymes with goat. I mean, isn't that kind of obvious?
+
+## To Do
+
+- [ ] Move the highlight.js assets to be static local instead of CDN
+- [ ] Make date on notes human-readable
+- [ ] README!
+- [ ] Encrypt notes...? (using key)
+- [ ] Refreshing on a note page gives errors (JS Console)

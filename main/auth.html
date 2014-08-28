@@ -10,8 +10,8 @@
 			position: fixed;
 			top: 50%;
 			left: 50%;
-			width: 320px;
-			margin-left: -166px;
+			width: 300px;
+			margin-left: -156px;
 			margin-top: -28px;
 			padding: 5px;
 			font-size: 36px;
@@ -25,12 +25,13 @@
 	</style>
 	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 	<script>
-		function onKeyDown(event, form) {
+		function onKeyDown(event, self) {
 			if (event.keyCode === 13) {
 				event.preventDefault();
-				var auth = form['auth'];
+				self.style.color = 'white';
+				var auth = self.form['auth'];
 				auth.value = CryptoJS.SHA256(auth.value);
-				form.submit();
+				self.form.submit();
 				return false;
 			}
 		}
@@ -38,7 +39,7 @@
 </head>
 <body>
 	<form action="/auth" method="post">
-		<input type="text" name="auth" onkeydown="onKeyDown(event, this.form);">
+		<input type="password" name="auth" onkeydown="onKeyDown(event, this);">
 	</form>
 </body>
 </html>
