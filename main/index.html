@@ -43,7 +43,7 @@
 							<a class="icon-{{ noteFilter }} no-select">{{ noteFilter | translate }}</a>
 							<ul class="submenu">
 								<li ng-repeat="note in notes | filter:filterNotes(query)">
-									<a class="sidenav-note" ng-class="{'selected': note.id === selectedNote, 'icon-star': note.favorited, 'icon-star-empty': !note.favorited}" href="#note/{{ note.id }}">{{ note.title }}</a>
+									<a class="sidenav-note" ng-class="{'selected': note.id === selectedNoteId, 'icon-star': note.favorited, 'icon-star-empty': !note.favorited}" href="#note/{{ note.id }}">{{ note.title }}</a>
 								</li>
 							</ul>
 						</li>
