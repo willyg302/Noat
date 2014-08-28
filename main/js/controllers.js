@@ -19,9 +19,7 @@ define([
 	}]);
 
 	controllers.controller('NoteController', ['$scope', '$routeParams', function($scope, $routeParams) {
-		var id = parseInt($routeParams.noteId);
-		$scope.note = $scope.$parent.getNote(id);
-		$scope.$parent.selectedNote = id;
+		$scope.$parent.selectedNoteId = parseInt($routeParams.noteId);
 
 		$scope.favoriteClicked = function() {
 			$scope.$parent.favoriteClicked();
@@ -54,18 +52,21 @@ define([
 			editor.getSession().setUseWrapMode(true);
 		};
 
+		var saveComplete = function() {
+			$scope.$parent.selectedNoteId = $scope.note.id;
+			$scope.$parent.saveComplete();
+		};
+
 		$scope.$on('save-clicked', function(event, args) {
 			if (id === 'new') {
 				$scope.note.$save(function() {
 					$scope.$parent.notes.unshift($scope.note);
-					$scope.$parent.selectedNote = $scope.note.id;
-					$scope.$parent.saveComplete();
+					saveComplete();
 				});
 			} else {
 				angular.copy($scope.note, $scope.$parent.getNote(id));
 				$scope.$parent.getNote(id).$update(function() {
-					$scope.$parent.selectedNote = $scope.note.id;
-					$scope.$parent.saveComplete();
+					saveComplete();
 				});
 			}
 		});

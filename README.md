@@ -56,7 +56,6 @@ There seems to be a recent software development trend of abusing the English lan
 ## To Do
 
 - [ ] Move the highlight.js assets to be static local instead of CDN
-- [ ] Make date on notes human-readable
 - [ ] README!
 - [ ] Encrypt notes...? (using key)
-- [ ] Refreshing on a note page gives errors (JS Console)
+- [ ] Enable permalinking of note and edit pages for a single note

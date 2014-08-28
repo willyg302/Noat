@@ -15,32 +15,29 @@ define([
 		'noat.services'
 	]);
 
-	app.config(['$routeProvider', '$translateProvider',
-		function($routeProvider, $translateProvider) {
-			//$locationProvider.html5mode(true);
-
-			$routeProvider
-				.when('/', {
-					templateUrl: 'partials/select.html'
-				})
-				.when('/note/:noteId', {
-					templateUrl: 'partials/note.html',
-					controller: 'NoteController'
-				})
-				.when('/edit/:noteId', {
-					templateUrl: 'partials/edit.html',
-					controller: 'EditController'
-				})
-				.otherwise({
-					redirectTo: '/'
-				});
-
-			$translateProvider.useStaticFilesLoader({
-				prefix: '/locales/',
-				suffix: '.json'
+	app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
+		$routeProvider
+			.when('/', {
+				templateUrl: 'partials/select.html'
+			})
+			.when('/note/:noteId', {
+				templateUrl: 'partials/note.html',
+				controller: 'NoteController'
+			})
+			.when('/edit/:noteId', {
+				templateUrl: 'partials/edit.html',
+				controller: 'EditController'
+			})
+			.otherwise({
+				redirectTo: '/'
 			});
-			$translateProvider.preferredLanguage('en');
-		}]);
+
+		$translateProvider.useStaticFilesLoader({
+			prefix: '/locales/',
+			suffix: '.json'
+		});
+		$translateProvider.preferredLanguage('en');
+	}]);
 
 	// http://stackoverflow.com/questions/12931369/click-everywhere-but-here-event
 	app.directive('clickOff', ['$document', function($document) {
@@ -58,16 +55,46 @@ define([
 	}]);
 
 	app.controller('MainController', ['$scope', '$location', 'Note', function($scope, $location, Note) {
+		// UI variables
 		$scope.query = '';
 		$scope.triggerHover = false;
 		$scope.menuOpen = false;
-
-		$scope.selectedNote = null;
-		$scope.notes = Note.query();
-
 		$scope.noteFilter = 'home';
 
+		// Note variables
+		$scope.notes = Note.query();
+		$scope.selectedNote = null;
+		$scope.selectedNoteId = null;
+
+		// Note state variables
 		$scope.editing = false;
+
+		// Button state variables
+		$scope.showButton = false;
+		$scope.showEditButton = false;
+		$scope.showRestoreButton = false;
+
+		var updateButtons = function() {
+			$scope.showButton = ($scope.selectedNote !== null && !$scope.editing);
+			$scope.showEditButton = $scope.editing;
+			$scope.showRestoreButton = ($scope.showButton && $scope.selectedNote.deleted);
+		};
+
+		var openMenu = function() {
+			if ($scope.menuOpen) {
+				return;
+			}
+			$scope.triggerHover = false;
+			$scope.menuOpen = true;
+		};
+
+		var closeMenu = function() {
+			if (!$scope.menuOpen) {
+				return;
+			}
+			$scope.triggerHover = false;
+			$scope.menuOpen = false;
+		};
 
 		$scope.filterNotes = function(query) {
 			return function(note) {
@@ -97,85 +124,67 @@ define([
 			return null;
 		};
 
-		$scope.getSelectedNote = function() {
-			return $scope.getNote($scope.selectedNote);
-		};
+		$scope.$watch('selectedNoteId', function(newValue, oldValue) {
+			$scope.selectedNote = $scope.getNote($scope.selectedNoteId);
+			updateButtons();
+		});
 
-		$scope.showButton = function() {
-			return $scope.selectedNote !== null && !$scope.editing;
-		};
+		$scope.$watch('editing', function(newValue, oldValue) {
+			updateButtons();
+		});
 
-		$scope.showEditButton = function() {
-			return $scope.editing;
-		};
-
-		$scope.showRestore = function() {
-			return $scope.showButton() && $scope.getSelectedNote().deleted;
-		};
-
-		var _openMenu = function() {
-			if ($scope.menuOpen) {
-				return;
-			}
-			$scope.triggerHover = false;
-			$scope.menuOpen = true;
-		};
-
-		var _closeMenu = function() {
-			if (!$scope.menuOpen) {
-				return;
-			}
-			$scope.triggerHover = false;
-			$scope.menuOpen = false;
-		};
+		/* MENU FUNCTIONS */
 
 		$scope.triggerClick = function($event) {
 			$event.stopPropagation();
 			$event.preventDefault();
 			if ($scope.menuOpen) {
-				_closeMenu();
+				closeMenu();
 			} else {
-				_openMenu();
+				openMenu();
 			}
 		};
 
 		$scope.menuOver = function() {
-			_openMenu();
+			openMenu();
 		};
 
 		$scope.menuClose = function() {
-			_closeMenu();
+			closeMenu();
 		};
 
+		/* BUTTON CLICK FUNCTIONS */
 
 		$scope.deleteClicked = function() {
-			var note = $scope.getSelectedNote();
+			var note = $scope.selectedNote;
 			if (note.deleted) {
 				note.$delete(function() {
 					$scope.notes.splice($scope.notes.indexOf(note), 1);
-					$scope.selectedNote = null;
+					$scope.selectedNoteId = null;
 					$location.path('/');  // No note is selected, back outta there!
 				});
 			} else {
 				note.deleted = true;
 				note.$update();
+				updateButtons();
 			}
 		};
 
 		$scope.restoreClicked = function() {
-			var note = $scope.getSelectedNote();
+			var note = $scope.selectedNote;
 			note.deleted = false;
 			note.$update();
+			updateButtons();
 		};
 
 		$scope.favoriteClicked = function() {
-			var note = $scope.getSelectedNote();
+			var note = $scope.selectedNote;
 			note.favorited = !note.favorited;
 			note.$update();
 		};
 
 		$scope.editClicked = function() {
-			$location.path('/edit/' + $scope.getSelectedNote().id);
+			$location.path('/edit/' + $scope.selectedNoteId);
 		};
 
 		$scope.cancelClicked = function() {
@@ -183,7 +192,7 @@ define([
 			if ($scope.selectedNote === null) {
 				$location.path('/');
 			} else {
-				$location.path('/note/' + $scope.getSelectedNote().id);
+				$location.path('/note/' + $scope.selectedNoteId);
 			}
 		};
 
@@ -193,7 +202,7 @@ define([
 
 		$scope.saveComplete = function() {
 			$scope.editing = false;
-			$location.path('/note/' + $scope.getSelectedNote().id);
+			$location.path('/note/' + $scope.selectedNoteId);
 		};
 	}]);
 
