@@ -4,42 +4,42 @@
 
 A dead-simple app for CRUD-ing tiny bits of information. Some features:
 
-* Powered by App Engine, themed by Bootstrap
-* Uses [Summernote](http://hackerwins.github.io/summernote/) for sweet WYSIWYG editing
-* Very simple interface (add a note, edit it, or delete it...that's it!)
-* Mobile-friendly
+- Powered by [Google App Engine](https://developers.google.com/appengine/) and [AngularJS](https://angularjs.org/)
+- Write notes in GitHub-flavored Markdown using the [Ace editor](http://ace.c9.io/#nav=about)
+- Very simple interface (create, update, star, or delete...that's it!)
+- Mobile-friendly
 
 ## Setup
 
-Open up **app.yaml** and change `[YOUR APPLICATION HERE]` to the name of your own App Engine application.
+Noat is designed to be run as your own App Engine application. This section will walk you through deploying Noat for the first time.
 
-After deploying to App Engine, you will need to set up an "author" that will be the ancestor of all notes written in Noat. To do this, navigate to `yourapp.appspot.com/admin/`, login using your Google credentials, and visit the Interactive Console. Run the following code:
+1. Download the Google App Engine SDK for Python from the [downloads](https://developers.google.com/appengine/downloads) page
+2. Register a new App Engine application
+3. Install [strap.py](https://github.com/willyg302/strap.py)
+4. Deploy Noat!
 
-```
-from google.appengine.ext import ndb
-from noat import Author
-
-newauthor = Author(author_name='[AUTHOR NAME HERE]', author_pass='[HASHED PASS HERE]')
-newauthor.put()
-```
-
-A good way to get a password is by hashing it using SHA-256:
-
-```
-import hashlib
-
-print hashlib.sha256([AUTHOR PASS HERE] + [SECRET SALT]).hexdigest()
+```bash
+strap init gh:willyg302/Noat -d Noat
+cd Noat
+strap run build
+strap run gae_upload  # Optional, see below
 ```
 
-You can then use the output of the above code for the value of `[HASHED PASS HERE]`.
+During the `build` step, you will be prompted for an **App name** and **App key**. **App name** is the name of your newly registered application. **App key** is a password that you will later use to access your notes.
+
+> **Note**: The `gae_upload` step assumes that you have installed the SDK to `~/appengine/` on Linux. You can, of course, deploy the generated `dist/` directory like a standard App Engine app (for example, through the Launcher on a Mac).
 
 ## Using Noat
 
-Visit yourapp.appspot.com/rnote?p=[HASHED PASS HERE]&n=[AUTHOR NAME HERE].
+When you visit Noat for the first time, you will be greeted with a minimalist login page. Enter your **App key** here.
 
-There is no login form; Noat just uses the username and password provided via the URL to retrieve notes. Since this isn't secure from eavesdropping, Noat is not recommended for storing sensitive information.
+> **Note**: If you have cookies enabled in your browser, you do not need to log in every time. Noat stores an automatic login cookie that expires in 30 days.
 
-That being said, this makes Noat very easy to use. Just bookmark the above URL in all your browsers and you've got all your notes synced everywhere. Noat also includes Apple icon support, so you can create an application icon on iOS devices for one-tap access.
+Most of Noat's workflows are fairly straightforward. Here are a few things that might not be immediately obvious:
+
+- In the search box, enter `#favorite` or `#star` to filter only starred notes
+- In the search box, enter `#deleted` or `#trash` to filter only deleted notes (by default not shown)
+- You can create an application icon on iOS devices for one-tap access
 
 ## Why Noat?
 
@@ -47,15 +47,14 @@ I needed a way of having small bits of information available to me at all times,
 
 Before making Noat, I used to rely on email to fill the void. Sometimes I would be at school and find a neat link that I'd want to revisit later at home. How could I communicate the link to myself? By syncing bookmarks? By adding it to a file in my Dropbox? No...by emailing myself the link. It seems old-fashioned, but it was really the easiest way to go.
 
-Now, I just click on my Noat bookmark, add a new note, paste the link, and save. Even easier!
+Now, I just click on my Noat bookmark, create a new note, paste the link, and save. Even easier!
 
 ## Why "Noat"?
 
 There seems to be a recent software development trend of abusing the English language in every way possible when coming up with app names. Noat continues this tradition in style. Plus note rhymes with goat. I mean, isn't that kind of obvious?
 
-## To Do
+## Roadmap (v1.1.0)
 
 - [ ] Move the highlight.js assets to be static local instead of CDN
-- [ ] README!
-- [ ] Encrypt notes...? (using key)
+- [ ] Encrypt notes...? (using app key)
 - [ ] Enable permalinking of note and edit pages for a single note
