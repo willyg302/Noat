@@ -1,5 +1,6 @@
 .noat-placeholder(@color) {
 	.placeholder(@color);
+
 	&:focus::-webkit-input-placeholder {
 		color: transparent;
 	}
@@ -7,5 +8,6 @@
 
 .noat-hamburger(@fore, @back) {
 	background: @fore;
-	box-shadow: 0 3px @back, 0 -6px @fore, 0 -9px @back, 0 -12px @fore;
+	@shadow: 0 3px @back, 0 -6px @fore, 0 -9px @back, 0 -12px @fore;
+	.box-shadow(@shadow);
 }

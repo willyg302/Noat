@@ -4,5 +4,3 @@ main/bower_components
 dist
 !dist/index.yaml
 .tmp
-
-main/css/*.css
