@@ -5,6 +5,9 @@ var minifycss  = require('gulp-minify-css');
 var requirejs  = require('gulp-requirejs');
 var uglify     = require('gulp-uglify');
 
+var fs = require('fs');
+var request = require('request');
+
 var paths = {
 	requireJSIncludes: ['../bower_components/requirejs/require.js'],
 	assets: [
@@ -24,7 +27,7 @@ var paths = {
 };
 
 gulp.task('clean', function() {
-	return gulp.src([paths.dist, '.tmp', '!dist/index.yaml'], {read: false})
+	return gulp.src([paths.dist, '!dist/index.yaml'], {read: false})
 		.pipe(clean());
 });
 
@@ -61,6 +64,13 @@ gulp.task('compile-css', function() {
 		.pipe(gulp.dest(paths.dist + "/css"));
 });
 
+gulp.task('download-highlight', function() {
+	request('http://yandex.st/highlightjs/8.0/styles/tomorrow.min.css')
+		.pipe(fs.createWriteStream(paths.dist + "/css/tomorrow.min.css"));
+	request('http://yandex.st/highlightjs/8.0/highlight.min.js')
+		.pipe(fs.createWriteStream(paths.dist + "/js/vendor/highlight.min.js"));
+});
+
 gulp.task('default', ['clean'], function() {
-	gulp.start('copy-assets', 'copy-modernizr', 'compile-js', 'compile-css');
+	gulp.start('copy-assets', 'copy-modernizr', 'compile-js', 'compile-css', 'download-highlight');
 });

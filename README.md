@@ -55,6 +55,6 @@ There seems to be a recent software development trend of abusing the English lan
 
 ## Roadmap (v1.1.0)
 
-- [ ] Move the highlight.js assets to be static local instead of CDN
+- [x] Move the highlight.js assets to be static local instead of CDN
 - [ ] Encrypt notes...? (using app key)
 - [ ] Enable permalinking of note and edit pages for a single note
