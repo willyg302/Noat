@@ -64,7 +64,7 @@ gulp.task('compile-css', function() {
 		.pipe(gulp.dest(paths.dist + "/css"));
 });
 
-gulp.task('download-highlight', function() {
+gulp.task('download-highlight', ['copy-assets'], function() {
 	request('http://yandex.st/highlightjs/8.0/styles/tomorrow.min.css')
 		.pipe(fs.createWriteStream(paths.dist + "/css/tomorrow.min.css"));
 	request('http://yandex.st/highlightjs/8.0/highlight.min.js')

@@ -116,12 +116,16 @@ define([
 		};
 
 		$scope.getNote = function(id) {
+			if (id === null) {
+				return null;
+			}
 			for (var i = 0; i < $scope.notes.length; i++) {
 				if ($scope.notes[i].id === id) {
 					return $scope.notes[i];
 				}
 			}
-			return null;
+			// Fallback to a get on id
+			return Note.get({id: id});
 		};
 
 		$scope.$watch('selectedNoteId', function(newValue, oldValue) {

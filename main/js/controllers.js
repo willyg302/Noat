@@ -19,6 +19,7 @@ define([
 	}]);
 
 	controllers.controller('NoteController', ['$scope', '$routeParams', function($scope, $routeParams) {
+		$scope.$parent.editing = false;
 		$scope.$parent.selectedNoteId = parseInt($routeParams.noteId);
 
 		$scope.favoriteClicked = function() {
@@ -42,7 +43,15 @@ define([
 			$scope.note = note;
 		} else {
 			id = parseInt(id);
-			$scope.note = angular.copy($scope.$parent.getNote(id));
+			// Do this dance so angular.copy() will succeed
+			var note = $scope.$parent.getNote(id);
+			if (typeof(note.$promise) !== 'undefined') {
+				note.$promise.then(function(n) {
+					$scope.note = angular.copy(n);
+				});
+			} else {
+				$scope.note = angular.copy(note);
+			}
 		}
 
 		$scope.initEditor = function(editor) {
