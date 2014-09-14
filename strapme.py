@@ -1,9 +1,8 @@
 project = 'Noat'
 
 def _npm_bower(command):
-	strap.run('npm {}'.format(command))
-	with strap.root('main'):
-		strap.run('bower {}'.format(command))
+	strap.npm(command)
+	strap.bower(command, root='main')
 
 def clean():
 	_npm_bower('prune')
@@ -31,7 +30,7 @@ def gae_upload():
 
 def build():
 	'''Build Noat'''
-	strap.run(['node_modules/.bin/gulp', generate_app_yaml])
+	strap.node('gulp', module=True).run(generate_app_yaml)
 
 def install():
 	_npm_bower('install')
