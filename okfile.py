@@ -1,5 +1,8 @@
 project = 'Noat'
 
+
+# BUILD TASKS
+
 def generate_app_yaml():
 	'''Generate production app.yaml'''
 	import getpass
@@ -12,20 +15,29 @@ def generate_app_yaml():
 		f.write(data)
 		f.truncate()
 
-def gae_server():
-	'''Run local App Engine server'''
-	ok.run('~/appengine/dev_appserver.py dist/')
-
-def gae_upload():
-	'''Upload Noat to App Engine'''
-	ok.run('~/appengine/appcfg.py update dist/')
-
 def build():
 	'''Build Noat'''
 	ok.node('gulp', module=True).run(generate_app_yaml)
 
+
+# DEPLOYMENT TASKS
+
+def gae_server():
+	'''Run local App Engine server'''
+	ok.run('~/appengine/dev_appserver.py dist/')
+
+def gae_deploy():
+	'''Deploy Noat to App Engine'''
+	ok.run('~/appengine/appcfg.py update dist/')
+
+
+# BASIC TASKS
+
+def test():
+	pass
+
 def install():
-	ok.npm('install').bower('install', root='main')
+	ok.npm('install').bower('install', root='app')
 
 def default():
-	ok.run(build)
+	ok.run([test, build])

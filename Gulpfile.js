@@ -1,34 +1,37 @@
 var gulp       = require('gulp');
-var clean      = require('gulp-clean');
 var less       = require('gulp-less');
 var minifycss  = require('gulp-minify-css');
-var requirejs  = require('gulp-requirejs');
 var uglify     = require('gulp-uglify');
 
-var fs = require('fs');
-var request = require('request');
+var browserify = require('browserify');
+var deamdify   = require('deamdify');
+var debowerify = require('debowerify');
+var del        = require('del');
+var fs         = require('fs');
+var request    = require('request');
+var buffer     = require('vinyl-buffer');
+var vinyl      = require('vinyl-source-stream');
+
 
 var paths = {
-	requireJSIncludes: ['../bower_components/requirejs/require.js'],
 	assets: [
-		'./main/index.html',
-		'./main/auth.html',
-		'./main/noat.py',
-		'./main/app.yaml',
-		'./main/img/**/*.*',
-		'./main/fonts/**/*.*',
-		'./main/locales/**/*.*',
-		'./main/partials/**/*.*'
+		'./app/index.html',
+		'./app/auth.html',
+		'./app/noat.py',
+		'./app/app.yaml',
+		'./app/img/**/*.*',
+		'./app/fonts/**/*.*',
+		'./app/locales/**/*.*',
+		'./app/partials/**/*.*'
 	],
-	app: './main',
+	app: './app',
 	dist: './dist',
-	js: './main/js',
-	css: './main/less'
+	css: './app/less/main.less',
+	js: './app/js/main.js'
 };
 
-gulp.task('clean', function() {
-	return gulp.src([paths.dist, '!dist/index.yaml'], {read: false})
-		.pipe(clean());
+gulp.task('clean', function(cb) {
+	del(paths.dist, cb);
 });
 
 gulp.task('copy-assets', function() {
@@ -37,40 +40,35 @@ gulp.task('copy-assets', function() {
 });
 
 gulp.task('copy-modernizr', function() {
-	return gulp.src(paths.app + "/bower_components/modernizr/modernizr.js")
+	return gulp.src("./bower_components/modernizr/modernizr.js")
 		.pipe(gulp.dest(paths.dist + "/js/vendor"));
-})
-
-gulp.task('compile-js', function() {
-	requirejs({
-		baseUrl: paths.js,
-		mainConfigFile: paths.js + "/main.js",
-		out: 'main.js',
-		name: 'main',
-		findNestedDependencies: true,
-		waitSeconds: 10,
-		wrapShim: true,
-		wrap: true,
-		include: paths.requireJSIncludes
-	})
-		.pipe(uglify())
-		.pipe(gulp.dest(paths.dist + "/js"));
 });
 
 gulp.task('compile-css', function() {
-	return gulp.src(paths.css + "/main.less")
+	return gulp.src(paths.css)
 		.pipe(less())
 		.pipe(minifycss())
 		.pipe(gulp.dest(paths.dist + "/css"));
 });
 
+gulp.task('compile-js', function() {
+	return browserify(paths.js)
+		.transform(debowerify)
+		.transform(deamdify)
+		.bundle()
+		.pipe(vinyl('main.js'))
+		.pipe(buffer())
+		.pipe(uglify())
+		.pipe(gulp.dest(paths.dist + "/js"));
+});
+
 gulp.task('download-highlight', ['copy-assets'], function() {
-	request('http://yandex.st/highlightjs/8.0/styles/tomorrow.min.css')
+	request('http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/tomorrow.min.css')
 		.pipe(fs.createWriteStream(paths.dist + "/css/tomorrow.min.css"));
-	request('http://yandex.st/highlightjs/8.0/highlight.min.js')
+	request('http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js')
 		.pipe(fs.createWriteStream(paths.dist + "/js/vendor/highlight.min.js"));
 });
 
 gulp.task('default', ['clean'], function() {
-	gulp.start('copy-assets', 'copy-modernizr', 'compile-js', 'compile-css', 'download-highlight');
+	gulp.start('copy-assets', 'copy-modernizr', 'compile-css', 'compile-js', 'download-highlight');
 });

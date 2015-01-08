@@ -1,6 +1,6 @@
-@bootless: '../bower_components/bootstrap/less/';
+@bootless: '../../bower_components/bootstrap/less/';
 
-// Useful Bootstrap mixins
+// Needed Bootstrap mixins
 @import "@{bootless}mixins/background-variant.less";
 @import "@{bootless}mixins/image.less";
 @import "@{bootless}mixins/tab-focus.less";
@@ -17,12 +17,11 @@
 @import "@{bootless}type.less";
 @import "@{bootless}code.less";
 
-// Application variables/mixins/fonts
-@import "variables.less";
-@import "mixins.less";
-@import "noaticons.less";
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
 // Noat styles
+@import "variables.less";
+@import "mixins.less";
+@import "noaticons.less";
 @import "app.less";

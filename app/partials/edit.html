@@ -1,0 +1,11 @@
+<div class="note note-editor">
+	<h1 class="note-header">
+		<input ng-model="note.title">
+	</h1>
+	<div class="ace-editor" ui-ace="{
+		useWrapMode: true,
+		theme: 'tomorrow',
+		mode: 'markdown',
+		onLoad: initEditor
+	}" ng-model="note.content"></div>
+</div>

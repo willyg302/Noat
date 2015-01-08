@@ -1,6 +1,6 @@
-![Noat](https://raw.github.com/willyg302/Noat/master/media/noat-logo-922.png "Wally Says Hi!")
+![Noat](https://raw.github.com/willyg302/Noat/master/noat-logo.png "Wally Says Hi!")
 
----
+-----
 
 A dead-simple app for CRUD-ing tiny bits of information. Some features:
 
@@ -15,19 +15,18 @@ Noat is designed to be run as your own App Engine application. This section will
 
 1. Download the Google App Engine SDK for Python from the [downloads](https://developers.google.com/appengine/downloads) page
 2. Register a new App Engine application
-3. Install [strap.py](https://github.com/willyg302/strap.py)
+3. Install [ok](https://github.com/willyg302/ok)
 4. Deploy Noat!
 
 ```bash
-strap init gh:willyg302/Noat -d Noat
+ok init gh:willyg302/Noat
 cd Noat
-strap run build
-strap run gae_upload  # Optional, see below
+ok run build gae_deploy
 ```
 
 During the `build` step, you will be prompted for an **App name** and **App key**. **App name** is the name of your newly registered application. **App key** is a password that you will later use to access your notes.
 
-> **Note**: The `gae_upload` step assumes that you have installed the SDK to `~/appengine/` on Linux. You can, of course, deploy the generated `dist/` directory like a standard App Engine app (for example, through the Launcher on a Mac).
+> **Note**: The `gae_deploy` step assumes that you have installed the SDK to `~/appengine/` on Linux. You can, of course, deploy the generated `dist/` directory like a standard App Engine app (for example, through the Launcher on a Mac).
 
 ## Using Noat
 
@@ -53,8 +52,7 @@ Now, I just click on my Noat bookmark, create a new note, paste the link, and sa
 
 There seems to be a recent software development trend of abusing the English language in every way possible when coming up with app names. Noat continues this tradition in style. Plus note rhymes with goat. I mean, isn't that kind of obvious?
 
-## Roadmap (v1.1.0)
+## Roadmap (v1.2.0)
 
-- [x] Move the highlight.js assets to be static local instead of CDN
 - [ ] Encrypt notes...? (using app key)
-- [ ] Enable permalinking of note and edit pages for a single note
+- [ ] Tests
