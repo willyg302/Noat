@@ -1,0 +1,20 @@
+{
+  "en": "Anglais",
+  "fr": "Français",
+  "es": "Espagnol",
+  "de": "Allemand",
+  "zh_cn": "Chinois",
+  "menu": "Menu",
+  "search": "Rechercher",
+  "home": "Toutes les Notes",
+  "star": "Favoris",
+  "trash": "Corbeille",
+  "new": "Nouvelle Note",
+  "edit": "Éditer",
+  "restore": "Restaurer",
+  "delete": "Supprimer",
+  "forever": "Effacer",
+  "select": "Sélectionner une note",
+  "save": "Sauvegarder",
+  "cancel": "Annuler"
+}

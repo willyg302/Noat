@@ -1,0 +1,20 @@
+{
+  "en": "Inglés",
+  "fr": "Francés",
+  "es": "Español",
+  "de": "Alemán",
+  "zh_cn": "Chino",
+  "menu": "Menú",
+  "search": "Búsqueda",
+  "home": "Notas",
+  "star": "Favoritos",
+  "trash": "Papelera de Reciclaje",
+  "new": "Nueva Nota",
+  "edit": "Editar",
+  "restore": "Restaurar",
+  "delete": "Borrar",
+  "forever": "Para Siempre",
+  "select": "Seleccione una nota",
+  "save": "Guardar",
+  "cancel": "Cancelar"
+}

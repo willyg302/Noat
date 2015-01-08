@@ -1,0 +1,20 @@
+{
+  "en": "Englisch",
+  "fr": "Französisch",
+  "es": "Spanisch",
+  "de": "Deutsch",
+  "zh_cn": "Chinese",
+  "menu": "Menü",
+  "search": "Suchen",
+  "home": "Alle Notizen",
+  "star": "Favoriten",
+  "trash": "Mülleimer",
+  "new": "Neuer Notiz",
+  "edit": "Bearbeiten",
+  "restore": "Wiederherstellen",
+  "delete": "Löschen",
+  "forever": "Für Immer",
+  "select": "Wähle ein notiz",
+  "save": "Speichern",
+  "cancel": "Abbrechen"
+}

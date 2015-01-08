@@ -1,5 +1,9 @@
 {
-  "en" : "English",
+  "en": "English",
+  "fr": "French",
+  "es": "Spanish",
+  "de": "German",
+  "zh_cn": "Chinese",
   "menu": "Menu",
   "search": "Search",
   "home": "All Notes",
