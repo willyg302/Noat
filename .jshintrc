@@ -1,0 +1,15 @@
+{
+  "browserify": true,
+  "eqeqeq": true,
+  "immed": true,
+  "jasmine": true,
+  "newcap": true,
+  "noarg": true,
+  "shadow": true,
+  "sub": true,
+  "trailing": true,
+  "globals": {
+    "angular": true,
+    "hljs": true
+  }
+}

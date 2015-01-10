@@ -34,7 +34,7 @@ def gae_deploy():
 # BASIC TASKS
 
 def test():
-	pass
+	ok.node('gulp test', module=True)
 
 def install():
 	ok.npm('install').bower('install', root='app')
