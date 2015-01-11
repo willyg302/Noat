@@ -6,16 +6,21 @@ require('../app/js/services');
 
 
 describe('services', function() {
-	var Service, httpBackend;
+	var Note, httpBackend;
 
 	beforeEach(angular.mock.module('noat.services'));
-	beforeEach(angular.mock.inject(['Note', '$httpBackend', function(Note, $httpBackend) {
-		Service = Note;
-		httpBackend = $httpBackend;
+	beforeEach(angular.mock.inject(['$injector', function($injector) {
+		Note = $injector.get('Note');
+		httpBackend = $injector.get('$httpBackend');
 	}]));
 
+	afterEach(function() {
+		httpBackend.verifyNoOutstandingExpectation();
+		httpBackend.verifyNoOutstandingRequest();
+	});
+
 	it('implements the Note service correctly', function() {
-		var note = new Service();
+		var note = new Note();
 		httpBackend.expectPUT('/notes/123', note).respond(200);
 		note.id = 123;
 		note.$update();

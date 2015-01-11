@@ -6,34 +6,37 @@ require('../app/js/controllers');
 
 
 describe('controllers', function() {
-	var Service, httpBackend, scope, createNoteController, createEditController;
+	var Note, httpBackend, scope, createNoteController, createEditController;
 
 	beforeEach(angular.mock.module('noat.controllers'));
-	beforeEach(angular.mock.inject(['Note', '$httpBackend', '$rootScope', '$controller',
-		function(Note, $httpBackend, $rootScope, $controller) {
-			Service = Note;
-			httpBackend = $httpBackend;
-			scope = $rootScope.$new();
+	beforeEach(angular.mock.inject(['$injector', function($injector) {
+		Note = $injector.get('Note');
+		httpBackend = $injector.get('$httpBackend');
+		scope = $injector.get('$rootScope').$new();
 
-			createNoteController = function(id) {
-				return $controller('NoteController', {
-					'$scope': scope,
-					'$routeParams': {
-						noteId: id
-					}
-				});
-			};
+		createNoteController = function(id) {
+			return $injector.get('$controller')('NoteController', {
+				'$scope': scope,
+				'$routeParams': {
+					noteId: id
+				}
+			});
+		};
 
-			createEditController = function(id) {
-				return $controller('EditController', {
-					'$scope': scope,
-					'$routeParams': {
-						noteId: id
-					}
-				});
-			};
-		}
-	]));
+		createEditController = function(id) {
+			return $injector.get('$controller')('EditController', {
+				'$scope': scope,
+				'$routeParams': {
+					noteId: id
+				}
+			});
+		};
+	}]));
+
+	afterEach(function() {
+		httpBackend.verifyNoOutstandingExpectation();
+		httpBackend.verifyNoOutstandingRequest();
+	});
 
 	it('initializes the NoteController correctly', function() {
 		var controller = createNoteController('123');
@@ -42,16 +45,16 @@ describe('controllers', function() {
 	});
 
 	it('initializes the EditController correctly', function() {
-		scope.$parent.getNote = jasmine.createSpy('getNote spy').and.returnValue(new Service());
+		scope.$parent.getNote = jasmine.createSpy('getNote spy').and.returnValue(new Note());
 		var controller = createEditController('123');
 		expect(scope.$parent.editing).toBe(true);
 		expect(scope.$parent.getNote).toHaveBeenCalledWith(123);
-		expect(scope.note).toEqual(new Service());
+		expect(scope.note).toEqual(new Note());
 	});
 
 	it('properly handles creating a new note', function() {
 		var controller = createEditController('new');
-		expect(scope.note).toEqual(new Service({
+		expect(scope.note).toEqual(new Note({
 			id: 0,
 			title: 'Untitled',
 			date: '',
@@ -83,7 +86,7 @@ describe('controllers', function() {
 	});
 
 	it('saves edits to a previously created note', function() {
-		var copiedNote = new Service({id: 456});
+		var copiedNote = new Note({id: 456});
 		scope.$parent.getNote = jasmine.createSpy('getNote spy').and.returnValue(copiedNote);
 		scope.$parent.saveComplete = jasmine.createSpy('saveComplete spy');
 		httpBackend.expectPUT('/notes/456', copiedNote).respond(200);
